@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appartements & Maisons à vendre — ImmoPrestige</title>
+  <meta name="description" content="Trouvez votre appartement ou maison à acheter en France. Biens premium, appartements neufs et anciens, villas et maisons de caractère.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/properties.css">
+  <style>
+    .page-hero { background:var(--c-bg-card); border-bottom:1px solid var(--c-border); padding:clamp(32px,6vw,64px) 0 clamp(24px,5vw,48px); }
+    .page-hero-inner { display:grid; grid-template-columns:1fr auto; gap:var(--sp-xl); align-items:center; }
+    .page-hero h1 { font-family:var(--font-display); font-size:var(--text-4xl); color:var(--c-white); margin-bottom:8px; }
+    .page-hero p  { color:var(--c-text-muted); font-size:var(--text-md); max-width:520px; }
+    .page-hero-badge { font-size:clamp(40px,8vw,64px); }
+
+    .sub-cats { display:flex; gap:10px; flex-wrap:wrap; margin:clamp(20px,4vw,32px) 0; }
+    .sub-cat-btn { display:flex; align-items:center; gap:8px; padding:10px 18px; border-radius:var(--r-full); border:1px solid var(--c-border); background:var(--c-bg-card); color:var(--c-text-muted); font-size:var(--text-sm); font-weight:600; font-family:var(--font-ui); cursor:pointer; transition:var(--t-base); white-space:nowrap; text-decoration:none; }
+    .sub-cat-btn:hover, .sub-cat-btn.active { background:var(--c-gold); color:#080810; border-color:var(--c-gold); }
+
+    .content-section { padding:var(--sp-2xl) 0 var(--sp-3xl); }
+
+    .filter-bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:var(--sp-lg); padding:clamp(14px,3vw,18px); background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-xl); }
+    .filter-bar input, .filter-bar select { padding:9px 13px; background:var(--c-bg); border:1px solid var(--c-border); border-radius:var(--r-md); color:var(--c-text); font-size:var(--text-sm); font-family:var(--font-body); outline:none; transition:var(--t-base); }
+    .filter-bar input:focus, .filter-bar select:focus { border-color:var(--c-gold); }
+    .filter-bar input::placeholder { color:var(--c-text-faint); }
+    .filter-bar select option { background:var(--c-bg-elevated); }
+    .filter-count { margin-left:auto; font-size:var(--text-sm); color:var(--c-text-muted); white-space:nowrap; font-family:var(--font-ui); }
+
+    .avantages { display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,2vw,20px); margin:var(--sp-2xl) 0; }
+    .avantage { background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-lg); padding:clamp(16px,3vw,24px); text-align:center; transition:var(--t-base); }
+    .avantage:hover { border-color:rgba(201,169,110,0.3); }
+    .avantage-icon { font-size:clamp(24px,4vw,32px); margin-bottom:10px; display:block; }
+    .avantage h4 { font-size:var(--text-base); font-weight:700; color:var(--c-text); margin-bottom:6px; }
+    .avantage p { font-size:var(--text-xs); color:var(--c-text-muted); line-height:1.5; }
+
+    .estim-banner { background:linear-gradient(135deg, rgba(96,165,250,0.06), rgba(96,165,250,0.02)); border:1px solid rgba(96,165,250,0.15); border-radius:var(--r-xl); padding:clamp(24px,5vw,44px); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); flex-wrap:wrap; margin:var(--sp-xl) 0; }
+    .estim-banner h3 { font-family:var(--font-display); font-size:var(--text-2xl); color:var(--c-white); margin-bottom:8px; }
+    .estim-banner p { color:var(--c-text-muted); font-size:var(--text-sm); max-width:420px; }
+    .estim-banner-btns { display:flex; gap:12px; flex-wrap:wrap; flex-shrink:0; }
+
+    .cta-banner { background:linear-gradient(135deg, rgba(201,169,110,0.08), rgba(201,169,110,0.03)); border:1px solid rgba(201,169,110,0.15); border-radius:var(--r-xl); padding:clamp(24px,5vw,44px); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); flex-wrap:wrap; margin-top:var(--sp-2xl); }
+    .cta-banner h3 { font-family:var(--font-display); font-size:var(--text-2xl); color:var(--c-white); margin-bottom:6px; }
+    .cta-banner p { color:var(--c-text-muted); font-size:var(--text-sm); }
+    .cta-banner-btns { display:flex; gap:12px; flex-wrap:wrap; flex-shrink:0; }
+
+    @media (max-width:900px) { .avantages { grid-template-columns:repeat(2,1fr); } .page-hero-inner { grid-template-columns:1fr; } .page-hero-badge { display:none; } .estim-banner,.cta-banner { flex-direction:column; text-align:center; } .estim-banner-btns,.cta-banner-btns { justify-content:center; } }
+    @media (max-width:600px) { .filter-bar { flex-direction:column; } .filter-bar input, .filter-bar select { width:100%; } .filter-count { margin-left:0; } }
+    @media (max-width:400px) { .avantages { grid-template-columns:1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
+
+<nav class="mobile-nav" id="mobileNav">
+  <a href="../index.html" class="mobile-nav-link">Accueil</a>
+  <a href="biens.html"    class="mobile-nav-link">Biens</a>
+  <a href="location.html" class="mobile-nav-link">Locations</a>
+  <a href="vente.html"    class="mobile-nav-link active">Ventes</a>
+  <a href="a-propos.html" class="mobile-nav-link">À propos</a>
+  <a href="contact.html"  class="mobile-nav-link">Contact</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="login.html"    class="btn-secondary">Connexion</a>
+    <a href="register.html" class="btn-primary">S'inscrire</a>
+  </div>
+</nav>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="url(#lgv)"/><path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/><circle cx="22" cy="20" r="3" fill="#C9A96E"/><defs><linearGradient id="lgv" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs></svg>
+      <div class="logo-text-wrap"><span class="logo-name">Immo<span>Prestige</span></span><span class="logo-tagline">Immobilier Premium</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html" class="nav-link">Accueil</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger nav-link active">Biens <span class="chevron">▾</span></div>
+        <div class="nav-dropdown-menu">
+          <a href="biens.html"    class="nav-dropdown-item"><span class="item-icon">🏠</span> Tous les biens</a>
+          <a href="location.html" class="nav-dropdown-item"><span class="item-icon">🔑</span> À louer</a>
+          <a href="vente.html"    class="nav-dropdown-item"><span class="item-icon">💰</span> À vendre</a>
+          <a href="properties.html?type=colocation" class="nav-dropdown-item"><span class="item-icon">👥</span> Colocations</a>
+        </div>
+      </div>
+      <a href="a-propos.html" class="nav-link">À propos</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html"    class="btn-secondary btn-sm">Connexion</a>
+      <a href="register.html" class="btn-primary btn-sm">S'inscrire</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span></button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div>
+        <h1>💰 Biens à vendre</h1>
+        <p>Appartements, maisons, villas, châteaux — Investissez dans l'immobilier premium avec l'accompagnement d'experts dédiés à votre projet d'achat.</p>
+      </div>
+      <div class="page-hero-badge">🏛</div>
+    </div>
+
+    <div class="sub-cats">
+      <button class="sub-cat-btn active" data-filter="all">Tous (30)</button>
+      <button class="sub-cat-btn" data-filter="studio">Studios (3)</button>
+      <button class="sub-cat-btn" data-filter="t2t3">T2/T3 (8)</button>
+      <button class="sub-cat-btn" data-filter="t4plus">T4+ (7)</button>
+      <button class="sub-cat-btn" data-filter="maison">Maisons (8)</button>
+      <button class="sub-cat-btn" data-filter="prestige">Prestige (4)</button>
+      <a href="properties.html?type=sale" class="sub-cat-btn">🔍 Recherche avancée</a>
+    </div>
+  </div>
+</div>
+
+<main class="content-section">
+  <div class="container">
+
+    <!-- Filtres rapides -->
+    <div class="filter-bar anim-on-scroll">
+      <input type="text" id="filterCity" placeholder="📍 Ville ou quartier…">
+      <select id="filterBudget">
+        <option value="">Budget max</option>
+        <option value="150000">150 000 €</option>
+        <option value="300000">300 000 €</option>
+        <option value="500000">500 000 €</option>
+        <option value="1000000">1 000 000 €</option>
+        <option value="2000000">2 000 000 €</option>
+        <option value="5000000">5 000 000 €</option>
+      </select>
+      <select id="filterSurface">
+        <option value="">Surface min</option>
+        <option value="30">30 m²</option>
+        <option value="50">50 m²</option>
+        <option value="80">80 m²</option>
+        <option value="120">120 m²</option>
+        <option value="200">200 m²</option>
+      </select>
+      <select id="filterRooms">
+        <option value="">Pièces</option>
+        <option value="1">1 pièce</option>
+        <option value="2">2 pièces</option>
+        <option value="3">3 pièces</option>
+        <option value="4">4+ pièces</option>
+      </select>
+      <button class="btn-primary btn-sm" onclick="applyFilters()">Filtrer</button>
+      <span class="filter-count" id="filterCount">30 biens disponibles</span>
+    </div>
+
+    <!-- Grille -->
+    <div class="properties-grid" id="venteGrid"></div>
+
+    <!-- Banner estimation -->
+    <div class="estim-banner anim-on-scroll">
+      <div>
+        <h3>💡 Estimez votre bien gratuitement</h3>
+        <p>Vous souhaitez vendre votre bien ? Nos experts réalisent une estimation gratuite et précise en 48h. Sans engagement.</p>
+      </div>
+      <div class="estim-banner-btns">
+        <a href="contact.html" class="btn-primary">Demander une estimation</a>
+        <a href="register.html" class="btn-secondary">Créer un compte vendeur</a>
+      </div>
+    </div>
+
+    <!-- Avantages -->
+    <div class="avantages">
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">🔍</span><h4>Expertise locale</h4><p>Des conseillers experts des marchés immobiliers locaux pour vous guider.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">📊</span><h4>Analyse de marché</h4><p>Accédez aux données de prix du marché pour négocier au meilleur prix.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">📄</span><h4>Accompagnement juridique</h4><p>Nos juristes vérifient chaque document avant signature pour votre sécurité.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">🏦</span><h4>Financement</h4><p>Nos partenaires bancaires vous proposent les meilleures conditions de crédit.</p></div>
+    </div>
+
+    <!-- CTA vendeurs -->
+    <div class="cta-banner anim-on-scroll">
+      <div>
+        <h3>Vous vendez votre bien ?</h3>
+        <p>Confiez la vente de votre bien à nos experts. Estimation gratuite, diffusion maximale, accompagnement complet.</p>
+      </div>
+      <div class="cta-banner-btns">
+        <a href="contact.html"  class="btn-primary">Nous contacter</a>
+        <a href="register.html" class="btn-secondary">Publier mon bien</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 ImmoPrestige. Tous droits réservés.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/loader.js"></script>
+<script>
+const VENTES = [
+  { title:'Appartement de prestige - 16e', city:'Paris 16e', surface:120, rooms:4, price:'1 250 000 €', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80', filter:'t4plus' },
+  { title:'Penthouse vue Paris', city:'Paris 7e', surface:200, rooms:6, price:'3 800 000 €', img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80', filter:'prestige' },
+  { title:'T3 investissement locatif', city:'Lyon 3e', surface:62, rooms:3, price:'289 000 €', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80', filter:'t2t3' },
+  { title:'Appartement neuf BBC', city:'Bordeaux', surface:75, rooms:3, price:'375 000 €', img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80', filter:'t2t3' },
+  { title:'Studio vue mer - Corniche', city:'Nice', surface:35, rooms:1, price:'220 000 €', img:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=600&q=80', filter:'studio' },
+  { title:'T4 plein centre - Capitole', city:'Toulouse', surface:95, rooms:4, price:'420 000 €', img:'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80', filter:'t4plus' },
+  { title:'Loft d\'architecte', city:'Nantes', surface:130, rooms:4, price:'580 000 €', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80', filter:'t4plus' },
+  { title:'Appartement haussmannien rénové', city:'Marseille 6e', surface:85, rooms:3, price:'350 000 €', img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80', filter:'t2t3' },
+  { title:'T2 + parking - Confluence', city:'Lyon 2e', surface:52, rooms:2, price:'265 000 €', img:'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&q=80', filter:'t2t3' },
+  { title:'Studio premium - Cœur d\'Or', city:'Lyon 6e', surface:30, rooms:1, price:'145 000 €', img:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80', filter:'studio' },
+  { title:'Villa d\'architecte - Piscine', city:'Nice', surface:280, rooms:8, price:'1 850 000 €', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80', filter:'prestige' },
+  { title:'Maison contemporaine - BBC', city:'Nantes', surface:160, rooms:6, price:'620 000 €', img:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', filter:'maison' },
+  { title:'Villa bord de mer', city:'Marseille', surface:320, rooms:9, price:'2 800 000 €', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80', filter:'prestige' },
+  { title:'Maison de maître - Parc', city:'Lyon', surface:380, rooms:12, price:'1 950 000 €', img:'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=600&q=80', filter:'prestige' },
+  { title:'Pavillon 4 chambres', city:'Toulouse', surface:130, rooms:5, price:'395 000 €', img:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', filter:'maison' },
+  { title:'Longère bretonne rénovée', city:'Rennes', surface:180, rooms:7, price:'480 000 €', img:'https://images.unsplash.com/photo-1598228723793-52759bba239c?w=600&q=80', filter:'maison' },
+  { title:'Mas provençal - Oliviers', city:'Aix-en-Provence', surface:250, rooms:8, price:'1 200 000 €', img:'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=600&q=80', filter:'maison' },
+  { title:'Maison ossature bois - Neuf', city:'Bordeaux', surface:145, rooms:5, price:'520 000 €', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80', filter:'maison' },
+  { title:'Duplex toit-terrasse', city:'Bordeaux', surface:110, rooms:4, price:'620 000 €', img:'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&q=80', filter:'t4plus' },
+  { title:'Appartement vue cathédrale', city:'Strasbourg', surface:88, rooms:4, price:'445 000 €', img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80', filter:'t4plus' },
+];
+
+let currentFilter = 'all';
+
+function renderCards(data) {
+  const grid = document.getElementById('venteGrid');
+  grid.innerHTML = data.map(b => `
+    <article class="property-card anim-on-scroll">
+      <div class="property-card__image">
+        <img src="${b.img}" alt="${b.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'">
+        <div class="property-card__status"><span class="status-badge status-available">🟢 Disponible</span></div>
+        <div class="property-card__type">Vente</div>
+        <button class="property-card__favorite">🤍</button>
+      </div>
+      <div class="property-card__body">
+        <div class="property-card__price">${b.price}</div>
+        <h3 class="property-card__title">${b.title}</h3>
+        <p class="property-card__location">📍 ${b.city}</p>
+        <div class="property-card__features">
+          <span class="property-card__feature">📐 ${b.surface}m²</span>
+          <span class="property-card__feature">🏠 ${b.rooms} pièce${b.rooms > 1 ? 's' : ''}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  document.getElementById('filterCount').textContent = `${data.length} bien${data.length > 1 ? 's' : ''} disponible${data.length > 1 ? 's' : ''}`;
+}
+
+function applyFilters() {
+  const city   = document.getElementById('filterCity').value.toLowerCase();
+  const budget = parseInt(document.getElementById('filterBudget').value) || Infinity;
+  const surface= parseInt(document.getElementById('filterSurface').value) || 0;
+  const rooms  = parseInt(document.getElementById('filterRooms').value) || 0;
+
+  let filtered = VENTES.filter(b => {
+    const bPrice = parseInt(b.price.replace(/[^\d]/g, ''));
+    if (currentFilter !== 'all' && b.filter !== currentFilter) return false;
+    if (city && !b.city.toLowerCase().includes(city)) return false;
+    if (bPrice > budget) return false;
+    if (b.surface < surface) return false;
+    if (rooms && b.rooms < rooms) return false;
+    return true;
+  });
+  renderCards(filtered);
+}
+
+document.querySelectorAll('.sub-cat-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.sub-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+renderCards(VENTES);
+</script>
+</body>
+</html>

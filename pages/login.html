@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — ImmoPrestige</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+<body class="auth-page">
+
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
+<div class="auth-bg"></div>
+
+<div class="auth-container">
+
+  <!-- Logo -->
+  <div class="auth-logo">
+    <a href="../index.html">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none">
+        <rect width="44" height="44" rx="10" fill="url(#lg2)"/>
+        <path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="3" fill="#C9A96E"/>
+        <defs><linearGradient id="lg2" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-name">Immo<span>Prestige</span></span>
+        <span class="logo-tagline">Immobilier Premium</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Carte -->
+  <div class="auth-card">
+    <div class="auth-card-header">
+      <h1>Bon retour 👋</h1>
+      <p>Connectez-vous à votre espace personnel</p>
+    </div>
+
+    <form id="loginForm" class="auth-form" novalidate>
+
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <div class="input-wrapper">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="email" placeholder="votre@email.com" autocomplete="email" required>
+        </div>
+        <span class="field-error" id="emailError"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="password" placeholder="Votre mot de passe" autocomplete="current-password" required>
+          <button type="button" class="toggle-password" aria-label="Afficher"><span class="eye-icon">👁</span></button>
+        </div>
+        <span class="field-error" id="passwordError"></span>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember">
+          <span>Se souvenir de moi</span>
+        </label>
+        <a href="forgot-password.html" class="forgot-link">Mot de passe oublié ?</a>
+      </div>
+
+      <div class="alert-message" id="alertMessage" style="display:none;"></div>
+
+      <button type="submit" class="btn-primary btn-full" id="submitBtn">
+        <span class="btn-text">Se connecter</span>
+        <span class="btn-loader" style="display:none;">⏳</span>
+      </button>
+
+    </form>
+
+    <div class="auth-divider"><span>Nouveau sur ImmoPrestige ?</span></div>
+    <a href="register.html" class="btn-secondary btn-full">Créer un compte gratuitement</a>
+
+    <div class="auth-roles">
+      <p>Vous êtes :</p>
+      <div class="roles-grid">
+        <div class="role-item"><span>🏠</span><small>Propriétaire</small></div>
+        <div class="role-item"><span>🔑</span><small>Locataire</small></div>
+        <div class="role-item"><span>💰</span><small>Acheteur</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-footer">
+    <a href="mentions-legales.html">Mentions légales</a>
+    <span>·</span>
+    <a href="confidentialite.html">Confidentialité</a>
+    <span>·</span>
+    <a href="../index.html">Accueil</a>
+  </div>
+
+</div>
+
+<script src="../assets/js/loader.js"></script>
+<script src="../assets/js/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('access_token')) { window.location.href = 'dashboard.html'; return; }
+
+    const form = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertMsg = document.getElementById('alertMessage');
+
+    document.querySelector('.toggle-password')?.addEventListener('click', function () {
+      const input = document.getElementById('password');
+      const icon = this.querySelector('.eye-icon');
+      input.type = input.type === 'password' ? 'text' : 'password';
+      icon.textContent = input.type === 'password' ? '👁' : '🙈';
+    });
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      clearErrors();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      let err = false;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('emailError', 'Email invalide'); err = true; }
+      if (!password) { showErr('passwordError', 'Mot de passe requis'); err = true; }
+      if (err) return;
+
+      setLoading(true);
+      try {
+        const res = await API.post('/auth/login', { email, password });
+        if (res.success) {
+          localStorage.setItem('access_token', res.data.accessToken);
+          localStorage.setItem('refresh_token', res.data.refreshToken);
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+          showAlert('✅ Connexion réussie ! Redirection…', 'success');
+          setTimeout(() => {
+            const u = res.data.user;
+            window.location.href = (u.role === 'admin' || u.role === 'manager') ? 'admin/dashboard.html' : 'dashboard.html';
+          }, 700);
+        } else { showAlert(res.message || 'Email ou mot de passe incorrect.', 'error'); }
+      } catch { showAlert('Erreur de connexion. Réessayez.', 'error'); }
+      setLoading(false);
+    });
+
+    function setLoading(s) {
+      submitBtn.disabled = s;
+      document.querySelector('.btn-text').style.display = s ? 'none' : 'inline';
+      document.querySelector('.btn-loader').style.display = s ? 'inline' : 'none';
+    }
+    function showAlert(msg, type) { alertMsg.textContent = msg; alertMsg.className = `alert-message alert-${type}`; alertMsg.style.display = 'block'; }
+    function showErr(id, msg) { document.getElementById(id).textContent = msg; }
+    function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); alertMsg.style.display = 'none'; }
+  });
+</script>
+</body>
+</html>

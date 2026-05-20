@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appartements & Maisons à louer — ImmoPrestige</title>
+  <meta name="description" content="Trouvez votre appartement ou maison à louer partout en France. Filtres avancés, photos HD, visite virtuelle.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/properties.css">
+  <style>
+    .page-hero { background:var(--c-bg-card); border-bottom:1px solid var(--c-border); padding:clamp(32px,6vw,64px) 0 clamp(24px,5vw,48px); }
+    .page-hero-inner { display:grid; grid-template-columns:1fr auto; gap:var(--sp-xl); align-items:center; }
+    .page-hero h1 { font-family:var(--font-display); font-size:var(--text-4xl); color:var(--c-white); margin-bottom:8px; }
+    .page-hero p  { color:var(--c-text-muted); font-size:var(--text-md); max-width:500px; }
+    .page-hero-badge { font-size:clamp(40px,8vw,64px); }
+
+    .sub-cats { display:flex; gap:10px; flex-wrap:wrap; margin:clamp(20px,4vw,32px) 0; }
+    .sub-cat-btn { display:flex; align-items:center; gap:8px; padding:10px 18px; border-radius:var(--r-full); border:1px solid var(--c-border); background:var(--c-bg-card); color:var(--c-text-muted); font-size:var(--text-sm); font-weight:600; font-family:var(--font-ui); cursor:pointer; transition:var(--t-base); white-space:nowrap; text-decoration:none; }
+    .sub-cat-btn:hover, .sub-cat-btn.active { background:var(--c-gold); color:#080810; border-color:var(--c-gold); }
+
+    .content-section { padding:var(--sp-2xl) 0 var(--sp-3xl); }
+
+    .filter-bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:var(--sp-lg); padding:clamp(14px,3vw,18px); background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-xl); }
+    .filter-bar input, .filter-bar select { padding:9px 13px; background:var(--c-bg); border:1px solid var(--c-border); border-radius:var(--r-md); color:var(--c-text); font-size:var(--text-sm); font-family:var(--font-body); outline:none; transition:var(--t-base); }
+    .filter-bar input:focus, .filter-bar select:focus { border-color:var(--c-gold); }
+    .filter-bar input::placeholder { color:var(--c-text-faint); }
+    .filter-bar select option { background:var(--c-bg-elevated); }
+    .filter-count { margin-left:auto; font-size:var(--text-sm); color:var(--c-text-muted); white-space:nowrap; font-family:var(--font-ui); }
+
+    .avantages { display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(12px,2vw,20px); margin:var(--sp-2xl) 0; }
+    .avantage { background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-lg); padding:clamp(16px,3vw,24px); text-align:center; transition:var(--t-base); }
+    .avantage:hover { border-color:rgba(201,169,110,0.3); }
+    .avantage-icon { font-size:clamp(24px,4vw,32px); margin-bottom:10px; display:block; }
+    .avantage h4 { font-size:var(--text-base); font-weight:700; color:var(--c-text); margin-bottom:6px; }
+    .avantage p { font-size:var(--text-xs); color:var(--c-text-muted); line-height:1.5; }
+
+    .cta-banner { background:linear-gradient(135deg, rgba(201,169,110,0.08), rgba(201,169,110,0.03)); border:1px solid rgba(201,169,110,0.15); border-radius:var(--r-xl); padding:clamp(24px,5vw,44px); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); flex-wrap:wrap; margin-top:var(--sp-2xl); }
+    .cta-banner h3 { font-family:var(--font-display); font-size:var(--text-2xl); color:var(--c-white); margin-bottom:6px; }
+    .cta-banner p { color:var(--c-text-muted); font-size:var(--text-sm); }
+    .cta-banner-btns { display:flex; gap:12px; flex-wrap:wrap; flex-shrink:0; }
+
+    @media (max-width:900px) { .avantages { grid-template-columns:repeat(2,1fr); } .page-hero-inner { grid-template-columns:1fr; } .page-hero-badge { display:none; } }
+    @media (max-width:600px) { .filter-bar { flex-direction:column; } .filter-bar input, .filter-bar select { width:100%; } .filter-count { margin-left:0; } .cta-banner { flex-direction:column; text-align:center; } .cta-banner-btns { justify-content:center; } }
+    @media (max-width:400px) { .avantages { grid-template-columns:1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
+
+<nav class="mobile-nav" id="mobileNav">
+  <a href="../index.html" class="mobile-nav-link">Accueil</a>
+  <a href="biens.html"    class="mobile-nav-link">Biens</a>
+  <a href="location.html" class="mobile-nav-link active">Locations</a>
+  <a href="vente.html"    class="mobile-nav-link">Ventes</a>
+  <a href="a-propos.html" class="mobile-nav-link">À propos</a>
+  <a href="contact.html"  class="mobile-nav-link">Contact</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="login.html"    class="btn-secondary">Connexion</a>
+    <a href="register.html" class="btn-primary">S'inscrire</a>
+  </div>
+</nav>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none"><rect width="44" height="44" rx="10" fill="url(#lgl)"/><path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/><circle cx="22" cy="20" r="3" fill="#C9A96E"/><defs><linearGradient id="lgl" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs></svg>
+      <div class="logo-text-wrap"><span class="logo-name">Immo<span>Prestige</span></span><span class="logo-tagline">Immobilier Premium</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html" class="nav-link">Accueil</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger nav-link active">Biens <span class="chevron">▾</span></div>
+        <div class="nav-dropdown-menu">
+          <a href="biens.html"    class="nav-dropdown-item"><span class="item-icon">🏠</span> Tous les biens</a>
+          <a href="location.html" class="nav-dropdown-item"><span class="item-icon">🔑</span> À louer</a>
+          <a href="vente.html"    class="nav-dropdown-item"><span class="item-icon">💰</span> À vendre</a>
+          <a href="properties.html?type=colocation" class="nav-dropdown-item"><span class="item-icon">👥</span> Colocations</a>
+        </div>
+      </div>
+      <a href="a-propos.html" class="nav-link">À propos</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html"    class="btn-secondary btn-sm">Connexion</a>
+      <a href="register.html" class="btn-primary btn-sm">S'inscrire</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span></button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div>
+        <h1>🔑 Biens à louer</h1>
+        <p>Appartements, maisons, studios, colocations — Trouvez votre logement idéal parmi notre sélection de biens en location partout en France.</p>
+      </div>
+      <div class="page-hero-badge">🏠</div>
+    </div>
+
+    <!-- Sous-catégories -->
+    <div class="sub-cats">
+      <button class="sub-cat-btn active" data-filter="all">Tous (45)</button>
+      <a href="#" class="sub-cat-btn" data-filter="studio">Studios (8)</a>
+      <a href="#" class="sub-cat-btn" data-filter="t2">T2 (12)</a>
+      <a href="#" class="sub-cat-btn" data-filter="t3">T3 (10)</a>
+      <a href="#" class="sub-cat-btn" data-filter="t4">T4+ (7)</a>
+      <a href="#" class="sub-cat-btn" data-filter="maison">Maisons (6)</a>
+      <a href="#" class="sub-cat-btn" data-filter="coloc">Colocations (5)</a>
+      <a href="properties.html?type=rent" class="sub-cat-btn">🔍 Recherche avancée</a>
+    </div>
+  </div>
+</div>
+
+<main class="content-section">
+  <div class="container">
+
+    <!-- Filtres rapides -->
+    <div class="filter-bar anim-on-scroll">
+      <input type="text" id="filterCity" placeholder="📍 Ville ou quartier…">
+      <select id="filterBudget">
+        <option value="">Budget max</option>
+        <option value="600">600 €/mois</option>
+        <option value="900">900 €/mois</option>
+        <option value="1200">1 200 €/mois</option>
+        <option value="1800">1 800 €/mois</option>
+        <option value="2500">2 500 €/mois</option>
+        <option value="5000">5 000 €/mois</option>
+      </select>
+      <select id="filterSurface">
+        <option value="">Surface min</option>
+        <option value="20">20 m²</option>
+        <option value="40">40 m²</option>
+        <option value="60">60 m²</option>
+        <option value="80">80 m²</option>
+        <option value="120">120 m²</option>
+      </select>
+      <select id="filterRooms">
+        <option value="">Pièces</option>
+        <option value="1">1 pièce</option>
+        <option value="2">2 pièces</option>
+        <option value="3">3 pièces</option>
+        <option value="4">4+ pièces</option>
+      </select>
+      <button class="btn-primary btn-sm" onclick="applyFilters()">Filtrer</button>
+      <span class="filter-count" id="filterCount">45 biens disponibles</span>
+    </div>
+
+    <!-- Grille biens -->
+    <div class="properties-grid" id="locationGrid"></div>
+
+    <!-- Avantages -->
+    <div class="avantages">
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">📋</span><h4>Dossier 100% en ligne</h4><p>Déposez votre candidature et suivez votre dossier depuis votre espace personnel.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">⚡</span><h4>Réponse rapide</h4><p>Votre dossier est examiné sous 48h par un conseiller dédié.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">✍️</span><h4>Signature électronique</h4><p>Signez votre bail en ligne, sans vous déplacer.</p></div>
+      <div class="avantage anim-on-scroll"><span class="avantage-icon">🛡</span><h4>Paiement sécurisé</h4><p>Votre acompte est versé sur un compte bancaire officiel vérifié.</p></div>
+    </div>
+
+    <!-- CTA propriétaires -->
+    <div class="cta-banner anim-on-scroll">
+      <div>
+        <h3>Vous êtes propriétaire ?</h3>
+        <p>Confiez-nous la gestion locative de votre bien. Nos conseillers s'occupent de tout.</p>
+      </div>
+      <div class="cta-banner-btns">
+        <a href="contact.html"  class="btn-primary">Nous contacter</a>
+        <a href="register.html" class="btn-secondary">Créer un compte propriétaire</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 ImmoPrestige. Tous droits réservés.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/loader.js"></script>
+<script>
+const LOCATIONS = [
+  { title:'Studio moderne - Marais', city:'Paris 4e', surface:28, rooms:1, price:'1 200 €/mois', img:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80', type:'studio' },
+  { title:'T2 lumineux - Montmartre', city:'Paris 18e', surface:42, rooms:2, price:'1 650 €/mois', img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80', type:'t2' },
+  { title:'T3 avec balcon - Bellecour', city:'Lyon 2e', surface:68, rooms:3, price:'1 400 €/mois', img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80', type:'t3' },
+  { title:'Appartement design - Part-Dieu', city:'Lyon 3e', surface:55, rooms:2, price:'1 180 €/mois', img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80', type:'t2' },
+  { title:'T4 familial - Prado', city:'Marseille 8e', surface:90, rooms:4, price:'1 800 €/mois', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80', type:'t4' },
+  { title:'Loft industriel - Chartrons', city:'Bordeaux', surface:85, rooms:3, price:'1 550 €/mois', img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80', type:'t3' },
+  { title:'Studio neuf - Capitole', city:'Toulouse', surface:30, rooms:1, price:'750 €/mois', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80', type:'studio' },
+  { title:'T2 côte d\'Azur - Promenade', city:'Nice', surface:45, rooms:2, price:'1 900 €/mois', img:'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=600&q=80', type:'t2' },
+  { title:'T3 centre-ville', city:'Nantes', surface:72, rooms:3, price:'1 200 €/mois', img:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=600&q=80', type:'t3' },
+  { title:'Appartement haussmannien', city:'Paris 8e', surface:110, rooms:4, price:'3 500 €/mois', img:'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&q=80', type:'t4' },
+  { title:'Maison avec jardin', city:'Paris Ouest', surface:140, rooms:5, price:'3 200 €/mois', img:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', type:'maison' },
+  { title:'Villa provençale', city:'Aix-en-Provence', surface:200, rooms:7, price:'4 500 €/mois', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80', type:'maison' },
+  { title:'Chambre coloc design', city:'Paris 11e', surface:15, rooms:1, price:'650 €/mois', img:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80', type:'coloc' },
+  { title:'Chambre villa - Piscine', city:'Nice', surface:20, rooms:1, price:'750 €/mois', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80', type:'coloc' },
+  { title:'T5 familial - Résidence', city:'Lyon', surface:130, rooms:5, price:'2 400 €/mois', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80', type:'t4' },
+];
+
+let currentFilter = 'all';
+
+function renderCards(data) {
+  const grid = document.getElementById('locationGrid');
+  grid.innerHTML = data.map(b => `
+    <article class="property-card anim-on-scroll">
+      <div class="property-card__image">
+        <img src="${b.img}" alt="${b.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'">
+        <div class="property-card__status"><span class="status-badge status-available">🟢 Disponible</span></div>
+        <div class="property-card__type">Location</div>
+        <button class="property-card__favorite">🤍</button>
+      </div>
+      <div class="property-card__body">
+        <div class="property-card__price">${b.price}</div>
+        <h3 class="property-card__title">${b.title}</h3>
+        <p class="property-card__location">📍 ${b.city}</p>
+        <div class="property-card__features">
+          <span class="property-card__feature">📐 ${b.surface}m²</span>
+          <span class="property-card__feature">🏠 ${b.rooms} pièce${b.rooms > 1 ? 's' : ''}</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  document.getElementById('filterCount').textContent = `${data.length} bien${data.length > 1 ? 's' : ''} disponible${data.length > 1 ? 's' : ''}`;
+}
+
+function applyFilters() {
+  const city   = document.getElementById('filterCity').value.toLowerCase();
+  const budget = parseInt(document.getElementById('filterBudget').value) || Infinity;
+  const surface= parseInt(document.getElementById('filterSurface').value) || 0;
+  const rooms  = parseInt(document.getElementById('filterRooms').value) || 0;
+
+  let filtered = LOCATIONS.filter(b => {
+    const bPrice = parseInt(b.price.replace(/[^\d]/g, ''));
+    if (currentFilter !== 'all' && b.type !== currentFilter) return false;
+    if (city && !b.city.toLowerCase().includes(city)) return false;
+    if (bPrice > budget) return false;
+    if (b.surface < surface) return false;
+    if (rooms && b.rooms < rooms) return false;
+    return true;
+  });
+  renderCards(filtered);
+}
+
+document.querySelectorAll('.sub-cat-btn[data-filter]').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.sub-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+renderCards(LOCATIONS);
+</script>
+</body>
+</html>

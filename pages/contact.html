@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — ImmoPrestige</title>
+  <meta name="description" content="Contactez ImmoPrestige — Notre équipe répond sous 24h pour tous vos projets immobiliers.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .contact-page { padding: var(--sp-2xl) 0 var(--sp-3xl); }
+    .contact-page-hero { background: var(--c-bg-card); border-bottom: 1px solid var(--c-border); padding: clamp(40px,8vw,80px) 0 clamp(32px,6vw,56px); text-align: center; }
+    .contact-page-hero h1 { font-family: var(--font-display); font-size: var(--text-4xl); color: var(--c-white); margin-bottom: 12px; }
+    .contact-page-hero p { color: var(--c-text-muted); font-size: var(--text-md); max-width: 480px; margin: 0 auto; }
+
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(28px,5vw,56px); margin-top: var(--sp-2xl); }
+
+    .contact-info-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-xl);
+      padding: clamp(24px,4vw,36px);
+    }
+
+    .contact-info-card h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      color: var(--c-white);
+      margin-bottom: 6px;
+    }
+
+    .contact-info-card > p { color: var(--c-text-muted); font-size: var(--text-sm); margin-bottom: clamp(20px,4vw,32px); line-height: 1.7; }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .contact-info-item:last-of-type { border-bottom: none; }
+
+    .ci-icon {
+      width: 44px; height: 44px;
+      background: var(--c-gold-glow);
+      border: 1px solid rgba(201,169,110,0.2);
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+
+    .ci-label { font-size: var(--text-xs); font-family: var(--font-ui); font-weight: 700; color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .ci-value { font-size: var(--text-base); color: var(--c-text); font-weight: 500; }
+    .ci-value a { color: var(--c-gold); text-decoration: none; transition: var(--t-fast); }
+    .ci-value a:hover { color: var(--c-gold-light); }
+
+    .horaires { margin-top: clamp(20px,4vw,28px); padding: clamp(16px,3vw,20px); background: var(--c-bg); border-radius: var(--r-lg); border: 1px solid var(--c-border); }
+    .horaires h4 { font-size: var(--text-sm); font-weight: 700; font-family: var(--font-ui); color: var(--c-gold); margin-bottom: 12px; }
+    .horaire-row { display: flex; justify-content: space-between; font-size: var(--text-sm); padding: 6px 0; border-bottom: 1px solid var(--c-border-soft); color: var(--c-text-muted); }
+    .horaire-row:last-child { border-bottom: none; }
+    .horaire-row span:last-child { color: var(--c-text); font-weight: 500; }
+
+    /* Formulaire */
+    .contact-form-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-xl);
+      padding: clamp(24px,4vw,40px);
+    }
+
+    .contact-form-card h2 { font-family: var(--font-display); font-size: var(--text-2xl); color: var(--c-white); margin-bottom: 6px; }
+    .contact-form-card > p { color: var(--c-text-muted); font-size: var(--text-sm); margin-bottom: clamp(20px,4vw,28px); }
+
+    .cf-input {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--c-bg);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-md);
+      color: var(--c-text);
+      font-size: var(--text-base);
+      font-family: var(--font-body);
+      outline: none;
+      transition: var(--t-base);
+      margin-bottom: 14px;
+    }
+
+    .cf-input:focus { border-color: var(--c-gold); background: var(--c-bg-elevated); box-shadow: 0 0 0 3px rgba(201,169,110,0.1); }
+    .cf-input::placeholder { color: var(--c-text-faint); }
+    .cf-input option { background: var(--c-bg-elevated); }
+    textarea.cf-input { resize: vertical; min-height: 130px; }
+
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .cf-label { display: block; font-size: var(--text-xs); font-weight: 700; font-family: var(--font-ui); color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+
+    .cf-group { margin-bottom: 4px; }
+
+    /* Map placeholder */
+    .map-placeholder {
+      margin-top: var(--sp-2xl);
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-xl);
+      height: clamp(240px, 35vw, 380px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      font-size: var(--text-md);
+      color: var(--c-text-muted);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .map-placeholder iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: var(--r-xl);
+      filter: invert(90%) hue-rotate(180deg);
+    }
+
+    /* Stats contact */
+    .contact-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(12px, 2vw, 20px);
+      margin: var(--sp-2xl) 0;
+    }
+
+    .contact-stat-card {
+      background: var(--c-bg-card);
+      border: 1px solid var(--c-border);
+      border-radius: var(--r-lg);
+      padding: clamp(16px, 3vw, 24px);
+      text-align: center;
+    }
+
+    .contact-stat-num { font-family: var(--font-display); font-size: clamp(24px,5vw,36px); font-weight: 700; color: var(--c-gold); display: block; margin-bottom: 6px; }
+    .contact-stat-label { font-size: var(--text-xs); color: var(--c-text-muted); font-family: var(--font-ui); }
+
+    @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .cf-row { grid-template-columns: 1fr; } .contact-stats { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .contact-stats { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
+
+<nav class="mobile-nav" id="mobileNav">
+  <a href="../index.html" class="mobile-nav-link">Accueil</a>
+  <a href="biens.html"    class="mobile-nav-link">Biens</a>
+  <a href="location.html" class="mobile-nav-link">Locations</a>
+  <a href="vente.html"    class="mobile-nav-link">Ventes</a>
+  <a href="a-propos.html" class="mobile-nav-link">À propos</a>
+  <a href="contact.html"  class="mobile-nav-link active">Contact</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="login.html"    class="btn-secondary">Connexion</a>
+    <a href="register.html" class="btn-primary">S'inscrire</a>
+  </div>
+</nav>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none">
+        <rect width="44" height="44" rx="10" fill="url(#lgc)"/>
+        <path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="3" fill="#C9A96E"/>
+        <defs><linearGradient id="lgc" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-name">Immo<span>Prestige</span></span>
+        <span class="logo-tagline">Immobilier Premium</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html" class="nav-link">Accueil</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger nav-link">Biens <span class="chevron">▾</span></div>
+        <div class="nav-dropdown-menu">
+          <a href="biens.html"    class="nav-dropdown-item"><span class="item-icon">🏠</span> Tous les biens</a>
+          <a href="location.html" class="nav-dropdown-item"><span class="item-icon">🔑</span> À louer</a>
+          <a href="vente.html"    class="nav-dropdown-item"><span class="item-icon">💰</span> À vendre</a>
+          <a href="properties.html?type=colocation" class="nav-dropdown-item"><span class="item-icon">👥</span> Colocations</a>
+        </div>
+      </div>
+      <a href="a-propos.html" class="nav-link">À propos</a>
+      <a href="contact.html"  class="nav-link active">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html"    class="btn-secondary btn-sm">Connexion</a>
+      <a href="register.html" class="btn-primary btn-sm">S'inscrire</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span></button>
+  </div>
+</header>
+
+<div class="contact-page-hero">
+  <div class="container">
+    <h1>Contactez-nous</h1>
+    <p>Notre équipe de conseillers immobiliers est à votre disposition pour répondre à toutes vos questions.</p>
+  </div>
+</div>
+
+<main class="contact-page">
+  <div class="container">
+
+    <!-- Stats -->
+    <div class="contact-stats anim-on-scroll">
+      <div class="contact-stat-card"><span class="contact-stat-num">&lt; 2h</span><span class="contact-stat-label">Temps de réponse</span></div>
+      <div class="contact-stat-card"><span class="contact-stat-num">98%</span><span class="contact-stat-label">Clients satisfaits</span></div>
+      <div class="contact-stat-card"><span class="contact-stat-num">12</span><span class="contact-stat-label">Conseillers experts</span></div>
+      <div class="contact-stat-card"><span class="contact-stat-num">6j/7</span><span class="contact-stat-label">Disponibilité</span></div>
+    </div>
+
+    <!-- Layout contact -->
+    <div class="contact-layout">
+
+      <!-- Infos -->
+      <div class="contact-info-card anim-on-scroll">
+        <h2>Nos coordonnées</h2>
+        <p>Plusieurs canaux pour vous joindre à notre équipe de conseillers spécialisés.</p>
+
+        <div class="contact-info-item">
+          <div class="ci-icon">📍</div>
+          <div>
+            <div class="ci-label">Adresse</div>
+            <div class="ci-value">12 Avenue des Champs-Élysées<br>75008 Paris, France</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="ci-icon">📞</div>
+          <div>
+            <div class="ci-label">Téléphone</div>
+            <div class="ci-value"><a href="tel:+33123456789">+33 1 23 45 67 89</a></div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="ci-icon">✉️</div>
+          <div>
+            <div class="ci-label">Email général</div>
+            <div class="ci-value"><a href="mailto:contact@immo-prestige.com">contact@immo-prestige.com</a></div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="ci-icon">🔑</div>
+          <div>
+            <div class="ci-label">Service location</div>
+            <div class="ci-value"><a href="mailto:location@immo-prestige.com">location@immo-prestige.com</a></div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="ci-icon">💰</div>
+          <div>
+            <div class="ci-label">Service vente</div>
+            <div class="ci-value"><a href="mailto:vente@immo-prestige.com">vente@immo-prestige.com</a></div>
+          </div>
+        </div>
+
+        <div class="horaires">
+          <h4>🕐 Horaires d'ouverture</h4>
+          <div class="horaire-row"><span>Lundi — Vendredi</span><span>9h00 — 19h00</span></div>
+          <div class="horaire-row"><span>Samedi</span><span>9h00 — 17h00</span></div>
+          <div class="horaire-row"><span>Dimanche</span><span>Fermé</span></div>
+          <div class="horaire-row"><span>Urgences</span><span>24h/24 par email</span></div>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <div class="contact-form-card anim-on-scroll">
+        <h2>Envoyer un message</h2>
+        <p>Remplissez le formulaire, nous vous répondons sous 24h.</p>
+
+        <form id="contactForm" novalidate>
+          <div class="cf-row">
+            <div class="cf-group">
+              <label class="cf-label" for="cf-prenom">Prénom *</label>
+              <input class="cf-input" type="text" id="cf-prenom" placeholder="Jean" required>
+            </div>
+            <div class="cf-group">
+              <label class="cf-label" for="cf-nom">Nom *</label>
+              <input class="cf-input" type="text" id="cf-nom" placeholder="Dupont" required>
+            </div>
+          </div>
+
+          <div class="cf-group">
+            <label class="cf-label" for="cf-email">Email *</label>
+            <input class="cf-input" type="email" id="cf-email" placeholder="jean.dupont@email.com" required>
+          </div>
+
+          <div class="cf-group">
+            <label class="cf-label" for="cf-phone">Téléphone</label>
+            <input class="cf-input" type="tel" id="cf-phone" placeholder="+33 6 12 34 56 78">
+          </div>
+
+          <div class="cf-group">
+            <label class="cf-label" for="cf-sujet">Sujet *</label>
+            <select class="cf-input" id="cf-sujet" required>
+              <option value="">Sélectionner un sujet…</option>
+              <option>Renseignement location</option>
+              <option>Renseignement achat</option>
+              <option>Mettre un bien en location</option>
+              <option>Mettre un bien en vente</option>
+              <option>Suivi de dossier</option>
+              <option>Problème technique</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="cf-group">
+            <label class="cf-label" for="cf-message">Message *</label>
+            <textarea class="cf-input" id="cf-message" placeholder="Décrivez votre projet immobilier ou votre demande…" required></textarea>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:var(--text-xs); color:var(--c-text-muted); line-height:1.5;">
+              <input type="checkbox" id="cf-rgpd" style="accent-color:var(--c-gold); width:15px; height:15px; flex-shrink:0; margin-top:2px;" required>
+              <span>J'accepte que mes données soient traitées conformément à la <a href="confidentialite.html" style="color:var(--c-gold);">politique de confidentialité</a>.</span>
+            </label>
+          </div>
+
+          <div class="alert-message" id="formAlert" style="display:none;"></div>
+
+          <button type="submit" class="btn-primary btn-full" id="cfSubmit">
+            <span class="btn-text">📤 Envoyer le message</span>
+            <span class="btn-loader" style="display:none;">⏳</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Carte Google Maps -->
+    <div class="map-placeholder anim-on-scroll">
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=2.2945%2C48.8698%2C2.3145%2C48.8798&layer=mapnik&marker=48.8748%2C2.3045"
+        loading="lazy" title="Localisation ImmoPrestige">
+      </iframe>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 ImmoPrestige. Tous droits réservés.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cgu.html">CGU</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/loader.js"></script>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const prenom  = document.getElementById('cf-prenom').value.trim();
+    const nom     = document.getElementById('cf-nom').value.trim();
+    const email   = document.getElementById('cf-email').value.trim();
+    const sujet   = document.getElementById('cf-sujet').value;
+    const message = document.getElementById('cf-message').value.trim();
+    const rgpd    = document.getElementById('cf-rgpd').checked;
+    const alert   = document.getElementById('formAlert');
+
+    if (!prenom || !nom || !email || !sujet || !message || !rgpd) {
+      alert.textContent = '⚠️ Veuillez remplir tous les champs obligatoires.';
+      alert.className = 'alert-message alert-error';
+      alert.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('cfSubmit');
+    btn.disabled = true;
+    document.querySelector('.btn-text').style.display = 'none';
+    document.querySelector('.btn-loader').style.display = 'inline';
+
+    // Simulation envoi (remplacer par appel API réel)
+    await new Promise(r => setTimeout(r, 1200));
+
+    alert.textContent = '✅ Message envoyé ! Nous vous répondrons sous 24h.';
+    alert.className = 'alert-message alert-success';
+    alert.style.display = 'block';
+    document.getElementById('contactForm').reset();
+
+    btn.disabled = false;
+    document.querySelector('.btn-text').style.display = 'inline';
+    document.querySelector('.btn-loader').style.display = 'none';
+  });
+</script>
+</body>
+</html>

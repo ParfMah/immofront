@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tous nos biens — ImmoPrestige</title>
+  <meta name="description" content="Découvrez tous nos biens immobiliers : appartements et maisons à louer ou acheter en France.">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/properties.css">
+  <style>
+    .biens-hero {
+      background: var(--c-bg-card);
+      border-bottom: 1px solid var(--c-border);
+      padding: clamp(32px, 6vw, 60px) 0 clamp(24px, 5vw, 40px);
+      text-align: center;
+    }
+    .biens-hero h1 { font-family: var(--font-display); font-size: var(--text-4xl); color: var(--c-white); margin-bottom: 10px; }
+    .biens-hero p  { color: var(--c-text-muted); font-size: var(--text-md); max-width: 500px; margin: 0 auto 28px; }
+
+    .type-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: clamp(24px, 4vw, 36px);
+    }
+
+    .type-tab {
+      padding: 10px 22px;
+      border-radius: var(--r-full);
+      border: 1px solid var(--c-border);
+      background: var(--c-bg-card);
+      color: var(--c-text-muted);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      font-family: var(--font-ui);
+      cursor: pointer;
+      transition: var(--t-base);
+      white-space: nowrap;
+    }
+    .type-tab.active, .type-tab:hover {
+      background: var(--c-gold);
+      color: #080810;
+      border-color: var(--c-gold);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 4vw, 32px);
+      color: var(--c-white);
+      margin-bottom: 6px;
+    }
+    .section-subtitle { color: var(--c-text-muted); font-size: var(--text-sm); margin-bottom: clamp(20px, 4vw, 32px); }
+
+    .bien-section { margin-bottom: var(--sp-3xl); }
+
+    .bien-section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: clamp(16px, 3vw, 24px);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .voir-tous { font-size: var(--text-sm); color: var(--c-gold); font-weight: 600; text-decoration: none; transition: var(--t-fast); display: flex; align-items: center; gap: 4px; }
+    .voir-tous:hover { color: var(--c-gold-light); }
+
+    .biens-page-main { padding: var(--sp-2xl) 0 var(--sp-3xl); }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="../index.html"  class="mobile-nav-link">Accueil</a>
+  <a href="biens.html"     class="mobile-nav-link active">Biens</a>
+  <a href="location.html"  class="mobile-nav-link">Locations</a>
+  <a href="vente.html"     class="mobile-nav-link">Ventes</a>
+  <a href="a-propos.html"  class="mobile-nav-link">À propos</a>
+  <a href="contact.html"   class="mobile-nav-link">Contact</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="login.html"    class="btn-secondary">Connexion</a>
+    <a href="register.html" class="btn-primary">S'inscrire</a>
+  </div>
+</nav>
+
+<!-- Header -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none">
+        <rect width="44" height="44" rx="10" fill="url(#lgh)"/>
+        <path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="3" fill="#C9A96E"/>
+        <defs><linearGradient id="lgh" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-name">Immo<span>Prestige</span></span>
+        <span class="logo-tagline">Immobilier Premium</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html" class="nav-link">Accueil</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger nav-link active">Biens <span class="chevron">▾</span></div>
+        <div class="nav-dropdown-menu">
+          <a href="biens.html"    class="nav-dropdown-item"><span class="item-icon">🏠</span> Tous les biens</a>
+          <a href="location.html" class="nav-dropdown-item"><span class="item-icon">🔑</span> À louer</a>
+          <a href="vente.html"    class="nav-dropdown-item"><span class="item-icon">💰</span> À vendre</a>
+          <a href="properties.html?type=colocation" class="nav-dropdown-item"><span class="item-icon">👥</span> Colocations</a>
+        </div>
+      </div>
+      <a href="a-propos.html" class="nav-link">À propos</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html"    class="btn-secondary btn-sm">Connexion</a>
+      <a href="register.html" class="btn-primary btn-sm">S'inscrire</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span></button>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="biens-hero">
+  <div class="container">
+    <h1>Nos biens immobiliers</h1>
+    <p>Découvrez notre sélection d'appartements et maisons disponibles partout en France</p>
+    <div class="type-tabs">
+      <button class="type-tab active" data-filter="all">Tous les biens</button>
+      <button class="type-tab" data-filter="apt-rent">Appartements à louer</button>
+      <button class="type-tab" data-filter="apt-sale">Appartements à vendre</button>
+      <button class="type-tab" data-filter="house-rent">Maisons à louer</button>
+      <button class="type-tab" data-filter="house-sale">Maisons à vendre</button>
+      <button class="type-tab" data-filter="coloc">Colocations</button>
+    </div>
+  </div>
+</div>
+
+<main class="biens-page-main">
+  <div class="container">
+
+    <!-- ===== APPARTEMENTS À LOUER ===== -->
+    <div class="bien-section" id="sec-apt-rent">
+      <div class="bien-section-header">
+        <div>
+          <h2 class="section-title">🔑 Appartements à louer</h2>
+          <p class="section-subtitle">Studios, T1, T2, T3 et grandes surfaces</p>
+        </div>
+        <a href="location.html" class="voir-tous">Voir tout →</a>
+      </div>
+      <div class="properties-grid" id="grid-apt-rent"></div>
+    </div>
+
+    <!-- ===== APPARTEMENTS À VENDRE ===== -->
+    <div class="bien-section" id="sec-apt-sale">
+      <div class="bien-section-header">
+        <div>
+          <h2 class="section-title">💰 Appartements à vendre</h2>
+          <p class="section-subtitle">Investissement ou résidence principale</p>
+        </div>
+        <a href="vente.html" class="voir-tous">Voir tout →</a>
+      </div>
+      <div class="properties-grid" id="grid-apt-sale"></div>
+    </div>
+
+    <!-- ===== MAISONS À LOUER ===== -->
+    <div class="bien-section" id="sec-house-rent">
+      <div class="bien-section-header">
+        <div>
+          <h2 class="section-title">🏡 Maisons à louer</h2>
+          <p class="section-subtitle">Avec jardin, garage, grande superficie</p>
+        </div>
+        <a href="location.html?type=house" class="voir-tous">Voir tout →</a>
+      </div>
+      <div class="properties-grid" id="grid-house-rent"></div>
+    </div>
+
+    <!-- ===== MAISONS À VENDRE ===== -->
+    <div class="bien-section" id="sec-house-sale">
+      <div class="bien-section-header">
+        <div>
+          <h2 class="section-title">🏠 Maisons à vendre</h2>
+          <p class="section-subtitle">Villas, pavillons, maisons de caractère</p>
+        </div>
+        <a href="vente.html?type=house" class="voir-tous">Voir tout →</a>
+      </div>
+      <div class="properties-grid" id="grid-house-sale"></div>
+    </div>
+
+    <!-- ===== COLOCATIONS ===== -->
+    <div class="bien-section" id="sec-coloc">
+      <div class="bien-section-header">
+        <div>
+          <h2 class="section-title">👥 Colocations</h2>
+          <p class="section-subtitle">Chambres et appartements partagés</p>
+        </div>
+        <a href="properties.html?type=colocation" class="voir-tous">Voir tout →</a>
+      </div>
+      <div class="properties-grid" id="grid-coloc"></div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center; padding:var(--sp-2xl) 0; border-top:1px solid var(--c-border);">
+      <h3 style="font-family:var(--font-display); font-size:var(--text-3xl); color:var(--c-white); margin-bottom:14px;">Votre bien idéal n'est pas là ?</h3>
+      <p style="color:var(--c-text-muted); margin-bottom:var(--sp-lg); font-size:var(--text-md);">Utilisez notre moteur de recherche avancé pour trouver exactement ce que vous cherchez.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="properties.html" class="btn-primary btn-lg">🔍 Recherche avancée</a>
+        <a href="contact.html"    class="btn-secondary btn-lg">💬 Contacter un conseiller</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 ImmoPrestige. Tous droits réservés.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cgu.html">CGU</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/loader.js"></script>
+<script>
+// ============================================================
+// DONNÉES DÉMO — 15 biens par catégorie
+// Les images seront remplacées via l'espace administrateur
+// ============================================================
+
+const APT_RENT = [
+  { title:'Studio moderne - Marais', city:'Paris 4e', surface:28, rooms:1, price:'1 200 €/mois', img:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80' },
+  { title:'T2 lumineux - Montmartre', city:'Paris 18e', surface:42, rooms:2, price:'1 650 €/mois', img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80' },
+  { title:'T3 avec balcon - Bellecour', city:'Lyon 2e', surface:68, rooms:3, price:'1 400 €/mois', img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80' },
+  { title:'Appartement design - Part-Dieu', city:'Lyon 3e', surface:55, rooms:2, price:'1 180 €/mois', img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80' },
+  { title:'T4 familial - Prado', city:'Marseille 8e', surface:90, rooms:4, price:'1 800 €/mois', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80' },
+  { title:'Loft industriel - Chartrons', city:'Bordeaux', surface:85, rooms:3, price:'1 550 €/mois', img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80' },
+  { title:'Studio neuf - Capitole', city:'Toulouse', surface:30, rooms:1, price:'750 €/mois', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80' },
+  { title:'T2 côte d\'Azur - Promenade', city:'Nice', surface:45, rooms:2, price:'1 900 €/mois', img:'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=600&q=80' },
+  { title:'T3 centre-ville', city:'Nantes', surface:72, rooms:3, price:'1 200 €/mois', img:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=600&q=80' },
+  { title:'Appartement haussmannien', city:'Paris 8e', surface:110, rooms:4, price:'3 500 €/mois', img:'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&q=80' },
+  { title:'T2 vue mer - Port', city:'Marseille 2e', surface:48, rooms:2, price:'1 100 €/mois', img:'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&q=80' },
+  { title:'Studio étudiant - Presqu\'île', city:'Lyon 1er', surface:22, rooms:1, price:'620 €/mois', img:'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=600&q=80' },
+  { title:'T4 terrasse panoramique', city:'Montpellier', surface:95, rooms:4, price:'1 650 €/mois', img:'https://images.unsplash.com/photo-1581958050559-3b64b26c5e24?w=600&q=80' },
+  { title:'Duplex design - Strasbourg', city:'Strasbourg', surface:78, rooms:3, price:'1 350 €/mois', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80' },
+  { title:'T3 meublé haut de gamme', city:'Rennes', surface:65, rooms:3, price:'1 050 €/mois', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80' },
+];
+
+const APT_SALE = [
+  { title:'Appartement de prestige - 16e', city:'Paris 16e', surface:120, rooms:4, price:'1 250 000 €', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80' },
+  { title:'Penthouse vue Paris', city:'Paris 7e', surface:200, rooms:6, price:'3 800 000 €', img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80' },
+  { title:'T3 investissement locatif', city:'Lyon 3e', surface:62, rooms:3, price:'289 000 €', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80' },
+  { title:'Appartement neuf BBC', city:'Bordeaux', surface:75, rooms:3, price:'375 000 €', img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80' },
+  { title:'Studio vue mer - Corniche', city:'Nice', surface:35, rooms:1, price:'220 000 €', img:'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=600&q=80' },
+  { title:'T4 plein centre - Capitole', city:'Toulouse', surface:95, rooms:4, price:'420 000 €', img:'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80' },
+  { title:'Loft d\'architecte', city:'Nantes', surface:130, rooms:4, price:'580 000 €', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80' },
+  { title:'Appartement haussmannien rénové', city:'Marseille 6e', surface:85, rooms:3, price:'350 000 €', img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80' },
+  { title:'T2 + parking - Confluence', city:'Lyon 2e', surface:52, rooms:2, price:'265 000 €', img:'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=600&q=80' },
+  { title:'Appartement vue cathédrale', city:'Strasbourg', surface:88, rooms:4, price:'445 000 €', img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80' },
+  { title:'Studio premium - Cœur d\'Or', city:'Lyon 6e', surface:30, rooms:1, price:'145 000 €', img:'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80' },
+  { title:'T5 familial - Résidence sécurisée', city:'Paris 15e', surface:150, rooms:5, price:'1 650 000 €', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80' },
+  { title:'Appartement standing - Préfecture', city:'Nice', surface:70, rooms:3, price:'390 000 €', img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80' },
+  { title:'T3 neuf - Zac Fleuriaye', city:'Nantes', surface:68, rooms:3, price:'298 000 €', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80' },
+  { title:'Duplex toit-terrasse', city:'Bordeaux', surface:110, rooms:4, price:'620 000 €', img:'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&q=80' },
+];
+
+const HOUSE_RENT = [
+  { title:'Maison avec jardin - Suburbs', city:'Paris Ouest', surface:140, rooms:5, price:'3 200 €/mois', img:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80' },
+  { title:'Villa provençale avec piscine', city:'Aix-en-Provence', surface:200, rooms:7, price:'4 500 €/mois', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80' },
+  { title:'Maison de ville rénovée', city:'Lyon', surface:110, rooms:4, price:'2 200 €/mois', img:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80' },
+  { title:'Pavillon 4 chambres - Jardin', city:'Nantes', surface:120, rooms:5, price:'1 900 €/mois', img:'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=600&q=80' },
+  { title:'Maison contemporaine - Terrain 600m²', city:'Bordeaux', surface:160, rooms:6, price:'2 800 €/mois', img:'https://images.unsplash.com/photo-1598228723793-52759bba239c?w=600&q=80' },
+  { title:'Bastide provençale', city:'Marseille', surface:180, rooms:6, price:'3 800 €/mois', img:'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=600&q=80' },
+  { title:'Maison à colombages', city:'Strasbourg', surface:130, rooms:5, price:'2 100 €/mois', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+  { title:'Villa bord de mer', city:'Nice', surface:220, rooms:7, price:'5 500 €/mois', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80' },
+  { title:'Maison bourgeoise - Quartier calme', city:'Rennes', surface:145, rooms:6, price:'2 400 €/mois', img:'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80' },
+  { title:'Fermette rénovée - 1 hectare', city:'Toulouse', surface:170, rooms:6, price:'2 000 €/mois', img:'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80' },
+  { title:'Villa moderniste - Vue collines', city:'Lyon', surface:195, rooms:7, price:'4 000 €/mois', img:'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80' },
+  { title:'Maison de maître XVIIIe', city:'Bordeaux', surface:260, rooms:8, price:'5 200 €/mois', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80' },
+  { title:'Pavillon années 70 rénové', city:'Paris Île-de-France', surface:105, rooms:4, price:'2 600 €/mois', img:'https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=600&q=80' },
+  { title:'Chalet montagnard', city:'Grenoble', surface:150, rooms:5, price:'2 300 €/mois', img:'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=600&q=80' },
+  { title:'Maison neuve BBC - Lotissement', city:'Montpellier', surface:125, rooms:5, price:'2 100 €/mois', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80' },
+];
+
+const HOUSE_SALE = [
+  { title:'Villa d\'architecte - Piscine', city:'Nice', surface:280, rooms:8, price:'1 850 000 €', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80' },
+  { title:'Château XVIIe - 5 hectares', city:'Bordeaux', surface:600, rooms:15, price:'4 500 000 €', img:'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80' },
+  { title:'Maison contemporaine - BBC', city:'Nantes', surface:160, rooms:6, price:'620 000 €', img:'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80' },
+  { title:'Villa bord de mer - Plage privée', city:'Marseille', surface:320, rooms:9, price:'2 800 000 €', img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80' },
+  { title:'Maison de maître - Parc 2 ha', city:'Lyon', surface:380, rooms:12, price:'1 950 000 €', img:'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=600&q=80' },
+  { title:'Pavillon 4 chambres - Jardin sud', city:'Toulouse', surface:130, rooms:5, price:'395 000 €', img:'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80' },
+  { title:'Longère bretonne rénovée', city:'Rennes', surface:180, rooms:7, price:'480 000 €', img:'https://images.unsplash.com/photo-1598228723793-52759bba239c?w=600&q=80' },
+  { title:'Mas provençal - Oliviers', city:'Aix-en-Provence', surface:250, rooms:8, price:'1 200 000 €', img:'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=600&q=80' },
+  { title:'Maison à ossature bois - Neuf', city:'Bordeaux', surface:145, rooms:5, price:'520 000 €', img:'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80' },
+  { title:'Villa néo-provençale', city:'Montpellier', surface:200, rooms:7, price:'780 000 €', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+  { title:'Maison alsacienne - Colombages', city:'Strasbourg', surface:170, rooms:6, price:'650 000 €', img:'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80' },
+  { title:'Chalet luxe - Pied des pistes', city:'Annecy', surface:220, rooms:7, price:'1 600 000 €', img:'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=600&q=80' },
+  { title:'Maison de ville + Garage', city:'Lyon', surface:115, rooms:4, price:'465 000 €', img:'https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=600&q=80' },
+  { title:'Domaine viticole - Gironde', city:'Bordeaux', surface:500, rooms:12, price:'3 200 000 €', img:'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80' },
+  { title:'Villa d\'exception - Vue mer 180°', city:'Nice', surface:350, rooms:10, price:'5 500 000 €', img:'https://images.unsplash.com/photo-1615873968403-89e068629265?w=600&q=80' },
+];
+
+const COLOC = [
+  { title:'Chambre meublée - Grande coloc', city:'Paris 11e', surface:15, rooms:1, price:'650 €/mois', img:'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80' },
+  { title:'Chambre privée T4 - Étudiants', city:'Lyon', surface:12, rooms:1, price:'480 €/mois', img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80' },
+  { title:'Coloc design - Loft 5 chambres', city:'Bordeaux', surface:18, rooms:1, price:'580 €/mois', img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80' },
+  { title:'Chambre en villa - Piscine', city:'Nice', surface:20, rooms:1, price:'750 €/mois', img:'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=600&q=80' },
+  { title:'Appartement 3 colocataires', city:'Toulouse', surface:16, rooms:1, price:'420 €/mois', img:'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80' },
+];
+
+function makeCard(b, type) {
+  return `
+    <article class="property-card anim-on-scroll" data-type="${type}">
+      <div class="property-card__image">
+        <img src="${b.img}" alt="${b.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'">
+        <div class="property-card__status"><span class="status-badge status-available">🟢 Disponible</span></div>
+        <div class="property-card__type">${b.price.includes('/mois') ? 'Location' : 'Vente'}</div>
+        <button class="property-card__favorite">🤍</button>
+      </div>
+      <div class="property-card__body">
+        <div class="property-card__price">${b.price}</div>
+        <h3 class="property-card__title">${b.title}</h3>
+        <p class="property-card__location">📍 ${b.city}</p>
+        <div class="property-card__features">
+          <span class="property-card__feature">📐 ${b.surface}m²</span>
+          <span class="property-card__feature">🏠 ${b.rooms} pièce${b.rooms > 1 ? 's' : ''}</span>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderSection(data, gridId, type) {
+  const grid = document.getElementById(gridId);
+  if (grid) grid.innerHTML = data.map(b => makeCard(b, type)).join('');
+}
+
+renderSection(APT_RENT,   'grid-apt-rent',   'apt-rent');
+renderSection(APT_SALE,   'grid-apt-sale',   'apt-sale');
+renderSection(HOUSE_RENT, 'grid-house-rent', 'house-rent');
+renderSection(HOUSE_SALE, 'grid-house-sale', 'house-sale');
+renderSection(COLOC,      'grid-coloc',      'coloc');
+
+// Filtres
+document.querySelectorAll('.type-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const f = tab.dataset.filter;
+
+    const sections = { 'apt-rent':'sec-apt-rent', 'apt-sale':'sec-apt-sale', 'house-rent':'sec-house-rent', 'house-sale':'sec-house-sale', 'coloc':'sec-coloc' };
+
+    if (f === 'all') {
+      Object.values(sections).forEach(id => document.getElementById(id).style.display = '');
+    } else {
+      Object.entries(sections).forEach(([key, id]) => {
+        document.getElementById(id).style.display = (key === f) ? '' : 'none';
+      });
+    }
+  });
+});
+</script>
+<script src="../assets/js/loader.js"></script>
+</body>
+</html>

@@ -2,97 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Créer un compte — ImmoPrestige</title>
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/auth.css">
-  <style>
-    /* ✅ CORRECTIF MOBILE — champs non coupés */
-    .auth-page {
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start; /* flex-start au lieu de center pour éviter le débordement */
-      justify-content: center;
-      padding: clamp(16px, 4vw, 32px) var(--pad-x);
-      overflow-y: auto;
-    }
-
-    .auth-container {
-      width: 100%;
-      max-width: clamp(340px, 94vw, 540px);
-      margin: 0 auto;
-      padding-bottom: 32px;
-    }
-
-    /* ✅ form-row — 1 colonne sur mobile */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(10px, 2vw, 14px);
-    }
-
-    /* Rôles en colonne sur mobile */
-    .role-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(6px, 1.5vw, 10px);
-    }
-
-    /* ✅ Input toujours pleine largeur */
-    .input-wrapper input,
-    .input-wrapper select,
-    .input-wrapper textarea {
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-
-    .auth-card {
-      background: var(--c-bg-card);
-      border: 1px solid var(--c-border);
-      border-radius: clamp(14px, 4vw, 22px);
-      padding: clamp(20px, 5vw, 36px);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-      overflow: hidden; /* empêche tout débordement */
-    }
-
-    @media (max-width: 520px) {
-      .form-row { grid-template-columns: 1fr; }
-      .role-options { grid-template-columns: 1fr; }
-      .role-card { flex-direction: row; padding: 11px 14px; gap: 12px; text-align: left; }
-    }
-
-    @media (max-width: 375px) {
-      .auth-card { padding: 18px 14px; border-radius: 14px; }
-      .auth-logo .logo-name { font-size: 18px; }
-    }
-  </style>
 </head>
 <body class="auth-page">
 
-<div id="page-loader">
-  <div class="loader-brand">
-    <svg class="loader-logo-circle" viewBox="0 0 64 64" fill="none">
-      <circle cx="32" cy="32" r="32" fill="#0e0e1c"/>
-      <path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/>
-      <circle cx="32" cy="25" r="3.5" fill="#c9a96e"/>
-    </svg>
-    <div class="loader-name">ImmoPrestige</div>
-  </div>
-  <div class="loader-ring"></div>
-</div>
+<div id="page-loader"><div class="loader-logo">ImmoPrestige</div><div class="loader-ring"></div></div>
 <div class="auth-bg"></div>
 
-<div class="auth-container">
+<div class="auth-container auth-container--wide">
 
-  <!-- Logo -->
   <div class="auth-logo">
     <a href="../index.html">
-      <svg class="logo-circle" viewBox="0 0 64 64" fill="none" style="width:40px;height:40px;">
-        <circle cx="32" cy="32" r="32" fill="url(#lgR)"/>
-        <circle cx="32" cy="32" r="29.5" fill="none" stroke="#c9a96e" stroke-width="1" stroke-opacity="0.4"/>
-        <path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/>
-        <circle cx="32" cy="25" r="3.5" fill="#c9a96e"/>
-        <defs><radialGradient id="lgR" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#1a1a30"/><stop offset="100%" stop-color="#07070f"/></radialGradient></defs>
+      <svg class="logo-svg" viewBox="0 0 44 44" fill="none">
+        <rect width="44" height="44" rx="10" fill="url(#lg3)"/>
+        <path d="M22 10L8 20.5V37H16.5V27H27.5V37H36V20.5L22 10Z" stroke="#C9A96E" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="22" cy="20" r="3" fill="#C9A96E"/>
+        <defs><linearGradient id="lg3" x1="0" y1="0" x2="44" y2="44"><stop stop-color="#141428"/><stop offset="1" stop-color="#0f0f1e"/></linearGradient></defs>
       </svg>
       <div class="logo-text-wrap">
         <span class="logo-name">Immo<span>Prestige</span></span>
@@ -113,37 +41,27 @@
       <div class="role-options">
         <label class="role-option">
           <input type="radio" name="role" value="tenant" checked>
-          <div class="role-card">
-            <span class="role-icon">🔑</span>
-            <div><strong>Locataire</strong><small>Je cherche à louer</small></div>
-          </div>
+          <div class="role-card"><span class="role-icon">🔑</span><strong>Locataire</strong><small>Je cherche à louer</small></div>
         </label>
         <label class="role-option">
           <input type="radio" name="role" value="buyer">
-          <div class="role-card">
-            <span class="role-icon">💰</span>
-            <div><strong>Acheteur</strong><small>Je cherche à acheter</small></div>
-          </div>
+          <div class="role-card"><span class="role-icon">💰</span><strong>Acheteur</strong><small>Je cherche à acheter</small></div>
         </label>
         <label class="role-option">
           <input type="radio" name="role" value="owner">
-          <div class="role-card">
-            <span class="role-icon">🏠</span>
-            <div><strong>Propriétaire</strong><small>Je publie des biens</small></div>
-          </div>
+          <div class="role-card"><span class="role-icon">🏠</span><strong>Propriétaire</strong><small>Je mets en annonce</small></div>
         </label>
       </div>
     </div>
 
     <form id="registerForm" class="auth-form" novalidate>
 
-      <!-- Prénom + Nom -->
       <div class="form-row">
         <div class="form-group">
           <label for="first_name">Prénom *</label>
           <div class="input-wrapper">
             <span class="input-icon">👤</span>
-            <input type="text" id="first_name" placeholder="Jean" autocomplete="given-name" required>
+            <input type="text" id="first_name" placeholder="Jean" required>
           </div>
           <span class="field-error" id="firstNameError"></span>
         </div>
@@ -151,40 +69,35 @@
           <label for="last_name">Nom *</label>
           <div class="input-wrapper">
             <span class="input-icon">👤</span>
-            <input type="text" id="last_name" placeholder="Dupont" autocomplete="family-name" required>
+            <input type="text" id="last_name" placeholder="Dupont" required>
           </div>
           <span class="field-error" id="lastNameError"></span>
         </div>
       </div>
 
-      <!-- Email -->
       <div class="form-group">
         <label for="email">Adresse email *</label>
         <div class="input-wrapper">
           <span class="input-icon">✉️</span>
-          <input type="email" id="email" placeholder="jean.dupont@email.com" autocomplete="email" required>
+          <input type="email" id="email" placeholder="jean.dupont@email.com" required>
         </div>
         <span class="field-error" id="emailError"></span>
       </div>
 
-      <!-- Téléphone -->
       <div class="form-group">
         <label for="phone">Téléphone</label>
         <div class="input-wrapper">
           <span class="input-icon">📱</span>
-          <input type="tel" id="phone" placeholder="+33 6 12 34 56 78" autocomplete="tel">
+          <input type="tel" id="phone" placeholder="+33 6 12 34 56 78">
         </div>
       </div>
 
-      <!-- Mot de passe -->
       <div class="form-group">
         <label for="password">Mot de passe *</label>
         <div class="input-wrapper">
           <span class="input-icon">🔒</span>
-          <input type="password" id="password" placeholder="8 caractères minimum" autocomplete="new-password" required>
-          <button type="button" class="toggle-password" id="togglePwd">
-            <span class="eye-icon">👁</span>
-          </button>
+          <input type="password" id="password" placeholder="8 caractères minimum" required>
+          <button type="button" class="toggle-password"><span class="eye-icon">👁</span></button>
         </div>
         <div class="password-strength">
           <div class="strength-bars">
@@ -196,23 +109,19 @@
         <span class="field-error" id="passwordError"></span>
       </div>
 
-      <!-- Confirmer -->
       <div class="form-group">
         <label for="confirm_password">Confirmer le mot de passe *</label>
         <div class="input-wrapper">
           <span class="input-icon">🔒</span>
-          <input type="password" id="confirm_password" placeholder="Répétez votre mot de passe" autocomplete="new-password" required>
+          <input type="password" id="confirm_password" placeholder="Répétez votre mot de passe" required>
         </div>
         <span class="field-error" id="confirmError"></span>
       </div>
 
-      <!-- CGU -->
       <div class="form-group">
-        <label class="checkbox-label" style="align-items:flex-start; gap:10px;">
-          <input type="checkbox" id="acceptCGU" required style="margin-top:3px; flex-shrink:0;">
-          <span style="font-size:var(--text-xs); line-height:1.6;">
-            J'accepte les <a href="legal/cgu.html" target="_blank" style="color:var(--c-gold);">Conditions Générales d'Utilisation</a> et la <a href="legal/confidentialite.html" target="_blank" style="color:var(--c-gold);">Politique de confidentialité</a>
-          </span>
+        <label class="checkbox-label checkbox-label--block">
+          <input type="checkbox" id="acceptCGU" required>
+          <span>J'accepte les <a href="cgu.html" target="_blank">CGU</a> et la <a href="confidentialite.html" target="_blank">Politique de confidentialité</a></span>
         </label>
         <span class="field-error" id="cguError"></span>
       </div>
@@ -220,9 +129,10 @@
       <div class="alert-message" id="alertMessage" style="display:none;"></div>
 
       <button type="submit" class="btn-primary btn-full" id="submitBtn">
-        <span class="btn-text">✨ Créer mon compte</span>
+        <span class="btn-text">Créer mon compte</span>
         <span class="btn-loader" style="display:none;">⏳</span>
       </button>
+
     </form>
 
     <div class="auth-divider"><span>Déjà un compte ?</span></div>
@@ -230,9 +140,9 @@
   </div>
 
   <div class="auth-footer">
-    <a href="legal/mentions-legales.html">Mentions légales</a>
+    <a href="mentions-legales.html">Mentions légales</a>
     <span>·</span>
-    <a href="legal/confidentialite.html">Confidentialité</a>
+    <a href="confidentialite.html">Confidentialité</a>
     <span>·</span>
     <a href="../index.html">Accueil</a>
   </div>
@@ -245,16 +155,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     if (localStorage.getItem('access_token')) { window.location.href = 'dashboard.html'; return; }
 
+    const form = document.getElementById('registerForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const alertMsg = document.getElementById('alertMessage');
     const pwInput = document.getElementById('password');
 
-    // Toggle password
-    document.getElementById('togglePwd')?.addEventListener('click', function () {
+    document.querySelector('.toggle-password')?.addEventListener('click', function () {
       const isPass = pwInput.type === 'password';
       pwInput.type = isPass ? 'text' : 'password';
       this.querySelector('.eye-icon').textContent = isPass ? '🙈' : '👁';
     });
 
-    // Indicateur de force
     pwInput.addEventListener('input', () => {
       const val = pwInput.value;
       const bars = document.querySelectorAll('.strength-bars .bar');
@@ -267,12 +178,10 @@
         bar.className = 'bar';
         if (i < score) bar.classList.add(['weak','fair','good','strong'][Math.min(score-1,3)]);
       });
-      const labels = ['Très faible','Moyen','Bon','Excellent ✅'];
-      document.getElementById('strengthText').textContent = val ? (labels[score-1] || 'Très faible') : 'Saisissez votre mot de passe';
+      document.getElementById('strengthText').textContent = val ? ['Faible','Moyen','Bon','Fort ✅'][score-1] || 'Faible' : 'Saisissez votre mot de passe';
     });
 
-    // Submit
-    document.getElementById('registerForm').addEventListener('submit', async e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       clearErrors();
 
@@ -285,57 +194,36 @@
         role:       document.querySelector('input[name="role"]:checked')?.value || 'tenant',
       };
       const confirm = document.getElementById('confirm_password').value;
-      const cgu     = document.getElementById('acceptCGU').checked;
+      const cgu = document.getElementById('acceptCGU').checked;
 
       let err = false;
-      if (data.first_name.length < 2)  { showErr('firstNameError', 'Prénom requis (min. 2 caractères)'); err = true; }
-      if (data.last_name.length < 2)   { showErr('lastNameError',  'Nom requis (min. 2 caractères)'); err = true; }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showErr('emailError', 'Adresse email invalide'); err = true; }
-      if (data.password.length < 8)    { showErr('passwordError', 'Minimum 8 caractères'); err = true; }
-      if (data.password !== confirm)   { showErr('confirmError', 'Les mots de passe ne correspondent pas'); err = true; }
-      if (!cgu) { showErr('cguError', 'Vous devez accepter les CGU pour continuer'); err = true; }
+      if (data.first_name.length < 2) { showErr('firstNameError', 'Prénom requis'); err = true; }
+      if (data.last_name.length < 2)  { showErr('lastNameError', 'Nom requis'); err = true; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { showErr('emailError', 'Email invalide'); err = true; }
+      if (data.password.length < 8)   { showErr('passwordError', 'Minimum 8 caractères'); err = true; }
+      if (data.password !== confirm)  { showErr('confirmError', 'Les mots de passe ne correspondent pas'); err = true; }
+      if (!cgu) { showErr('cguError', 'Vous devez accepter les CGU'); err = true; }
       if (err) return;
 
       setLoading(true);
-
       try {
-        const res = await (typeof API !== 'undefined' ? API.post('/auth/register', data).catch(() => null) : Promise.resolve(null));
-        if (res?.success) {
-          showAlert('✅ Compte créé avec succès ! Vérifiez votre email pour l\'activer.', 'success');
+        const res = await API.post('/auth/register', data);
+        if (res.success) {
+          showAlert('✅ Compte créé ! Vérifiez votre email pour l\'activer.', 'success');
           setTimeout(() => window.location.href = 'login.html', 3000);
-        } else if (res?.message) {
-          showAlert(res.message, 'error');
-        } else {
-          // Mode démo
-          showAlert('✅ Compte créé ! (Mode démo) Redirection vers la connexion…', 'success');
-          setTimeout(() => window.location.href = 'login.html', 2500);
-        }
-      } catch {
-        showAlert('❌ Erreur de connexion. Vérifiez votre connexion internet et réessayez.', 'error');
-      }
-
+        } else { showAlert(res.message || 'Erreur lors de l\'inscription.', 'error'); }
+      } catch { showAlert('Erreur de connexion. Réessayez.', 'error'); }
       setLoading(false);
     });
 
     function setLoading(s) {
-      document.getElementById('submitBtn').disabled = s;
-      document.querySelector('.btn-text').style.display  = s ? 'none' : 'inline';
+      submitBtn.disabled = s;
+      document.querySelector('.btn-text').style.display = s ? 'none' : 'inline';
       document.querySelector('.btn-loader').style.display = s ? 'inline' : 'none';
     }
-
-    function showAlert(msg, type) {
-      const el = document.getElementById('alertMessage');
-      el.textContent = msg;
-      el.className = `alert-message alert-${type}`;
-      el.style.display = 'block';
-    }
-
+    function showAlert(msg, type) { alertMsg.textContent = msg; alertMsg.className = `alert-message alert-${type}`; alertMsg.style.display = 'block'; }
     function showErr(id, msg) { document.getElementById(id).textContent = msg; }
-
-    function clearErrors() {
-      document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
-      document.getElementById('alertMessage').style.display = 'none';
-    }
+    function clearErrors() { document.querySelectorAll('.field-error').forEach(el => el.textContent = ''); alertMsg.style.display = 'none'; }
   });
 </script>
 </body>
