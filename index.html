@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ImmoPrestige — Votre partenaire immobilier premium</title>
+  <meta name="description" content="Trouvez votre bien idéal : appartements et maisons à louer ou acheter en France. ImmoPrestige, l'agence digitale premium.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="page-loader">
+  <div class="loader-brand">
+    <svg class="loader-logo-circle" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="32" fill="#0e0e1c"/>
+      <circle cx="32" cy="32" r="29.5" fill="none" stroke="url(#lgRing)" stroke-width="1.5"/>
+      <path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="32" cy="25" r="3.5" fill="#c9a96e"/>
+      <rect x="28" y="38" width="8" height="12" rx="1.5" fill="#c9a96e" opacity="0.55"/>
+      <defs>
+        <linearGradient id="lgRing" x1="0" y1="0" x2="64" y2="64">
+          <stop offset="0%" stop-color="#e2c896"/>
+          <stop offset="100%" stop-color="#a07840"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="loader-name">ImmoPrestige</div>
+  </div>
+  <div class="loader-ring"></div>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="index.html"              class="mobile-nav-link active">Accueil</a>
+  <a href="pages/biens.html"        class="mobile-nav-link">Biens</a>
+  <a href="pages/location.html"     class="mobile-nav-link">Locations</a>
+  <a href="pages/vente.html"        class="mobile-nav-link">Ventes</a>
+  <a href="pages/properties.html?type=colocation" class="mobile-nav-link">Colocations</a>
+  <a href="pages/a-propos.html"     class="mobile-nav-link">À propos</a>
+  <a href="pages/contact.html"      class="mobile-nav-link">Contact</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="pages/login.html"    class="btn-secondary">Connexion</a>
+    <a href="pages/register.html" class="btn-primary">S'inscrire</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+
+    <!-- LOGO ROND -->
+    <a href="index.html" class="logo">
+      <svg class="logo-circle" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="32" fill="url(#lgBg)"/>
+        <circle cx="32" cy="32" r="29.5" fill="none" stroke="url(#lgRing1)" stroke-width="1.2"/>
+        <path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="32" cy="25" r="3.5" fill="#c9a96e"/>
+        <rect x="28" y="38" width="8" height="12" rx="1.5" fill="#c9a96e" opacity="0.5"/>
+        <defs>
+          <radialGradient id="lgBg" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#1a1a30"/>
+            <stop offset="100%" stop-color="#07070f"/>
+          </radialGradient>
+          <linearGradient id="lgRing1" x1="0" y1="0" x2="64" y2="64">
+            <stop offset="0%" stop-color="#e2c896" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#a07840" stop-opacity="0.2"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="logo-text-wrap">
+        <span class="logo-name">Immo<span>Prestige</span></span>
+        <span class="logo-tagline">Immobilier Premium</span>
+      </div>
+    </a>
+
+    <!-- NAV DESKTOP -->
+    <nav class="nav-links">
+      <a href="index.html" class="nav-link active">Accueil</a>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger nav-link">Biens <span class="chevron">▾</span></div>
+        <div class="nav-dropdown-menu">
+          <a href="pages/biens.html"    class="nav-dropdown-item"><span class="item-icon">🏠</span> Tous les biens</a>
+          <a href="pages/location.html" class="nav-dropdown-item"><span class="item-icon">🔑</span> À louer</a>
+          <a href="pages/vente.html"    class="nav-dropdown-item"><span class="item-icon">💰</span> À vendre</a>
+          <a href="pages/properties.html?type=colocation" class="nav-dropdown-item"><span class="item-icon">👥</span> Colocations</a>
+        </div>
+      </div>
+      <a href="pages/a-propos.html" class="nav-link">À propos</a>
+      <a href="pages/contact.html"  class="nav-link">Contact</a>
+    </nav>
+
+    <!-- ACTIONS DESKTOP -->
+    <div class="header-actions">
+      <a href="pages/login.html"    class="btn-secondary btn-sm">Connexion</a>
+      <a href="pages/register.html" class="btn-primary btn-sm">S'inscrire</a>
+    </div>
+
+    <!-- HAMBURGER -->
+    <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO avec fond image -->
+<section class="hero" style="--bg-img:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1400&q=60');">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">🏆 Plateforme immobilière premium</div>
+    <h1 class="hero-title">
+      Trouvez votre
+      <span class="hero-title-accent">bien idéal</span>
+    </h1>
+    <p class="hero-subtitle">Location, vente, colocation — Des centaines de biens d'exception sélectionnés pour vous partout en France</p>
+
+    <div class="hero-search">
+      <div class="hero-search-tabs">
+        <button class="hero-tab active" data-type="">Tous</button>
+        <button class="hero-tab" data-type="rent">Location</button>
+        <button class="hero-tab" data-type="sale">Vente</button>
+        <button class="hero-tab" data-type="colocation">Colocation</button>
+      </div>
+      <div class="hero-search-inputs">
+        <div class="hero-search-field">
+          <span class="hero-search-icon">📍</span>
+          <input type="text" id="heroCity" placeholder="Ville, quartier…" autocomplete="off">
+        </div>
+        <div class="hero-search-field">
+          <span class="hero-search-icon">🏠</span>
+          <select id="heroType">
+            <option value="">Type de bien</option>
+            <option value="apartment">Appartement</option>
+            <option value="house">Maison</option>
+            <option value="studio">Studio</option>
+            <option value="villa">Villa</option>
+          </select>
+        </div>
+        <div class="hero-search-field">
+          <span class="hero-search-icon">💶</span>
+          <input type="number" id="heroBudget" placeholder="Budget max (€)">
+        </div>
+        <button class="hero-search-btn" onclick="heroSearch()">🔍 Rechercher</button>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">1 250+</span><span>Biens</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">45</span><span>Villes</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">8 500+</span><span>Clients</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">12 ans</span><span>Expérience</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CATÉGORIES -->
+<section class="categories-section bg-image-overlay" style="--bg-img:url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=40');">
+  <div class="container">
+    <div class="section-header anim-on-scroll">
+      <span class="eyebrow">Explorez nos biens</span>
+      <h2>Toutes les catégories</h2>
+    </div>
+    <div class="categories-grid">
+      <a href="pages/properties.html?type=rent&property_type=apartment" class="category-card anim-on-scroll">
+        <div class="category-icon">🏙</div>
+        <div class="category-content"><h3>Appartements à louer</h3><p>Studios, T1, T2, T3 et plus</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+      <a href="pages/properties.html?type=sale&property_type=apartment" class="category-card anim-on-scroll">
+        <div class="category-icon">🏢</div>
+        <div class="category-content"><h3>Appartements à vendre</h3><p>Investissement ou résidence principale</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+      <a href="pages/properties.html?type=rent&property_type=house" class="category-card anim-on-scroll">
+        <div class="category-icon">🏡</div>
+        <div class="category-content"><h3>Maisons à louer</h3><p>Avec jardin, garage, terrain</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+      <a href="pages/properties.html?type=sale&property_type=house" class="category-card anim-on-scroll">
+        <div class="category-icon">🏠</div>
+        <div class="category-content"><h3>Maisons à vendre</h3><p>Villa, pavillon, maison de caractère</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+      <a href="pages/properties.html?type=colocation" class="category-card anim-on-scroll">
+        <div class="category-icon">👥</div>
+        <div class="category-content"><h3>Colocations</h3><p>Chambres et appartements partagés</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+      <a href="pages/biens.html" class="category-card category-card--premium anim-on-scroll">
+        <div class="category-icon">⭐</div>
+        <div class="category-content"><h3>Biens premium</h3><p>Sélection haut de gamme exclusive</p></div>
+        <span class="category-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BIENS EN VEDETTE -->
+<section class="featured-section">
+  <div class="container">
+    <div class="section-header anim-on-scroll">
+      <span class="eyebrow">Sélection du moment</span>
+      <h2>Biens en vedette</h2>
+      <p>Découvrez notre sélection de biens d'exception</p>
+    </div>
+    <div class="properties-grid" id="featuredGrid">
+      <div class="property-card skeleton" style="height:360px;border-radius:28px;"></div>
+      <div class="property-card skeleton" style="height:360px;border-radius:28px;"></div>
+      <div class="property-card skeleton" style="height:360px;border-radius:28px;"></div>
+    </div>
+    <div style="text-align:center; margin-top:var(--sp-xl);">
+      <a href="pages/biens.html" class="btn-primary btn-lg">Voir tous les biens →</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT ÇA MARCHE -->
+<section class="howto-section bg-image-overlay" style="--bg-img:url('https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=1200&q=40');">
+  <div class="container">
+    <div class="section-header anim-on-scroll">
+      <span class="eyebrow">Simple et rapide</span>
+      <h2>Comment ça marche</h2>
+    </div>
+    <div class="howto-grid">
+      <div class="howto-step anim-on-scroll"><div class="howto-num">01</div><div class="howto-icon">🔍</div><h3>Recherchez</h3><p>Filtres avancés pour trouver le bien parfait.</p></div>
+      <div class="howto-step anim-on-scroll"><div class="howto-num">02</div><div class="howto-icon">📋</div><h3>Candidatez</h3><p>Déposez votre dossier complet en ligne.</p></div>
+      <div class="howto-step anim-on-scroll"><div class="howto-num">03</div><div class="howto-icon">✅</div><h3>Réservez</h3><p>Bloquez votre bien avec un acompte sécurisé.</p></div>
+      <div class="howto-step anim-on-scroll"><div class="howto-num">04</div><div class="howto-icon">🔑</div><h3>Emménagez</h3><p>Signez en ligne et recevez vos clés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIANCE -->
+<section class="trust-section">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-content anim-on-scroll">
+        <span class="eyebrow">Notre engagement</span>
+        <h2>Transactions 100% sécurisées</h2>
+        <p>Toutes les transactions sont supervisées. Votre sécurité est notre priorité absolue.</p>
+        <div class="trust-features">
+          <div class="trust-feature"><span class="trust-icon">🔒</span><div><strong>Paiements sécurisés</strong><p>Uniquement par virement bancaire officiel vérifié</p></div></div>
+          <div class="trust-feature"><span class="trust-icon">🛡</span><div><strong>Messagerie protégée</strong><p>Échanges supervisés, protection anti-fraude</p></div></div>
+          <div class="trust-feature"><span class="trust-icon">✅</span><div><strong>Biens vérifiés</strong><p>Chaque annonce contrôlée avant publication</p></div></div>
+          <div class="trust-feature"><span class="trust-icon">📄</span><div><strong>Contrats officiels</strong><p>Signature électronique légale et conforme</p></div></div>
+        </div>
+      </div>
+      <div class="trust-visual anim-on-scroll">
+        <div class="trust-card">
+          <div class="trust-card-header"><span>🏠</span><strong>Réservation sécurisée</strong></div>
+          <div class="trust-step done">✅ Dossier validé</div>
+          <div class="trust-step done">✅ RIB officiel envoyé</div>
+          <div class="trust-step active">⏳ Paiement acompte</div>
+          <div class="trust-step">⬜ Bien réservé</div>
+          <div class="trust-step">⬜ Contrat signé</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VILLES -->
+<section class="cities-section bg-image-overlay" style="--bg-img:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=40');">
+  <div class="container">
+    <div class="section-header anim-on-scroll">
+      <span class="eyebrow">Partout en France</span>
+      <h2>Nos villes principales</h2>
+    </div>
+    <div class="cities-grid">
+      <a href="pages/biens.html?city=Paris"       class="city-card anim-on-scroll"><div class="city-name">Paris</div><div class="city-count">320+ biens</div></a>
+      <a href="pages/biens.html?city=Lyon"        class="city-card anim-on-scroll"><div class="city-name">Lyon</div><div class="city-count">180+ biens</div></a>
+      <a href="pages/biens.html?city=Marseille"   class="city-card anim-on-scroll"><div class="city-name">Marseille</div><div class="city-count">145+ biens</div></a>
+      <a href="pages/biens.html?city=Bordeaux"    class="city-card anim-on-scroll"><div class="city-name">Bordeaux</div><div class="city-count">98+ biens</div></a>
+      <a href="pages/biens.html?city=Toulouse"    class="city-card anim-on-scroll"><div class="city-name">Toulouse</div><div class="city-count">87+ biens</div></a>
+      <a href="pages/biens.html?city=Nice"        class="city-card anim-on-scroll"><div class="city-name">Nice</div><div class="city-count">74+ biens</div></a>
+      <a href="pages/biens.html?city=Nantes"      class="city-card anim-on-scroll"><div class="city-name">Nantes</div><div class="city-count">66+ biens</div></a>
+      <a href="pages/biens.html?city=Montpellier" class="city-card anim-on-scroll"><div class="city-name">Montpellier</div><div class="city-count">59+ biens</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- À PROPOS -->
+<section class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="anim-on-scroll">
+        <span class="eyebrow">Qui sommes-nous</span>
+        <h2>L'immobilier digital, enfin simple</h2>
+        <p>ImmoPrestige est votre agence immobilière 100% digitale. De la recherche à la signature du contrat, tout se fait en ligne, de manière sécurisée et transparente.</p>
+        <p style="margin-top:14px;">Notre équipe de conseillers spécialisés vous accompagne personnellement à chaque étape de votre projet.</p>
+        <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:var(--sp-lg);">
+          <a href="pages/register.html"  class="btn-primary">Créer un compte</a>
+          <a href="pages/a-propos.html"  class="btn-secondary">En savoir plus</a>
+        </div>
+      </div>
+      <div class="about-stats anim-on-scroll">
+        <div class="about-stat"><div class="about-stat-num">1 250+</div><div>Biens gérés</div></div>
+        <div class="about-stat"><div class="about-stat-num">8 500+</div><div>Clients satisfaits</div></div>
+        <div class="about-stat"><div class="about-stat-num">45+</div><div>Villes couvertes</div></div>
+        <div class="about-stat"><div class="about-stat-num">98%</div><div>Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section bg-image-overlay" style="--bg-img:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=40');">
+  <div class="container">
+    <div class="section-header anim-on-scroll">
+      <span class="eyebrow">Besoin d'aide ?</span>
+      <h2>Contactez-nous</h2>
+      <p style="color:rgba(255,255,255,0.55);">Notre équipe répond sous 24h</p>
+    </div>
+    <div class="contact-cards">
+      <div class="contact-card anim-on-scroll">
+        <span class="contact-icon">📧</span>
+        <h3>Email</h3>
+        <p>contact@immo-prestige.com</p>
+        <a href="mailto:contact@immo-prestige.com">Écrire →</a>
+      </div>
+      <div class="contact-card anim-on-scroll">
+        <span class="contact-icon">📞</span>
+        <h3>Téléphone</h3>
+        <p>+33 1 23 45 67 89</p>
+        <a href="tel:+33123456789">Appeler →</a>
+      </div>
+      <div class="contact-card anim-on-scroll">
+        <span class="contact-icon">📍</span>
+        <h3>Adresse</h3>
+        <p>12 Av. Champs-Élysées, Paris</p>
+        <a href="pages/contact.html">Voir →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CORRIGÉ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <!-- Colonne brand -->
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="margin-bottom:var(--sp-md);">
+          <svg width="38" height="38" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="32" fill="#0e0e1c"/>
+            <circle cx="32" cy="32" r="29.5" fill="none" stroke="#c9a96e" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="32" cy="25" r="3.5" fill="#c9a96e"/>
+          </svg>
+          <div class="logo-text-wrap">
+            <span class="logo-name" style="font-size:18px;">Immo<span>Prestige</span></span>
+          </div>
+        </a>
+        <p>Votre partenaire immobilier digital premium. Location, vente et colocation partout en France depuis 2012.</p>
+        <div class="footer-social">
+          <a href="#" title="LinkedIn">💼</a>
+          <a href="#" title="Twitter">🐦</a>
+          <a href="#" title="Instagram">📸</a>
+          <a href="#" title="Facebook">👤</a>
+        </div>
+      </div>
+
+      <!-- Biens -->
+      <div class="footer-col">
+        <h4>Biens</h4>
+        <ul>
+          <li><a href="pages/location.html">🔑 Appartements à louer</a></li>
+          <li><a href="pages/vente.html">💰 Appartements à vendre</a></li>
+          <li><a href="pages/location.html">🏡 Maisons à louer</a></li>
+          <li><a href="pages/vente.html">🏠 Maisons à vendre</a></li>
+          <li><a href="pages/properties.html?type=colocation">👥 Colocations</a></li>
+        </ul>
+      </div>
+
+      <!-- Mon espace -->
+      <div class="footer-col">
+        <h4>Mon espace</h4>
+        <ul>
+          <li><a href="pages/login.html">🚪 Connexion</a></li>
+          <li><a href="pages/register.html">✨ Inscription</a></li>
+          <li><a href="pages/dashboard.html">📊 Dashboard</a></li>
+          <li><a href="pages/messages.html">💬 Messagerie</a></li>
+          <li><a href="pages/publish-property.html">📝 Publier un bien</a></li>
+        </ul>
+      </div>
+
+      <!-- Infos -->
+      <div class="footer-col">
+        <h4>Informations</h4>
+        <ul>
+          <li><a href="pages/a-propos.html">ℹ️ À propos</a></li>
+          <li><a href="pages/contact.html">📞 Contact</a></li>
+          <li><a href="pages/legal/mentions-legales.html">⚖️ Mentions légales</a></li>
+          <li><a href="pages/legal/confidentialite.html">🔒 Confidentialité</a></li>
+          <li><a href="pages/legal/cgu.html">📋 CGU</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2024 ImmoPrestige SAS — Tous droits réservés</p>
+      <div class="footer-bottom-links">
+        <a href="pages/legal/mentions-legales.html">Mentions légales</a>
+        <a href="pages/legal/confidentialite.html">Confidentialité</a>
+        <a href="pages/legal/cgu.html">CGU</a>
+        <span style="color:var(--c-text-faint);">🔒 SSL — RGPD</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/loader.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/utils.js"></script>
+<script>
+  let selectedType = '';
+
+  document.querySelectorAll('.hero-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.hero-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      selectedType = tab.dataset.type;
+    });
+  });
+
+  function heroSearch() {
+    const p = new URLSearchParams();
+    const city   = document.getElementById('heroCity').value.trim();
+    const type   = document.getElementById('heroType').value;
+    const budget = document.getElementById('heroBudget').value;
+    if (selectedType) p.set('type', selectedType);
+    if (city)   p.set('city', city);
+    if (type)   p.set('property_type', type);
+    if (budget) p.set('max_price', budget);
+    window.location.href = `pages/biens.html?${p.toString()}`;
+  }
+
+  ['heroCity','heroBudget'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') heroSearch();
+    });
+  });
+
+  // Biens démo
+  function loadDemoCards() {
+    const demos = [
+      { title:'Appartement lumineux - Paris 16e', city:'Paris', surface:75, rooms:3, price:'2 800 €/mois', img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80', type:'Location', slug:'appt-paris-16' },
+      { title:'Villa contemporaine - Piscine', city:'Nice', surface:180, rooms:6, price:'780 000 €', img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=600&q=80', type:'Vente', slug:'villa-nice' },
+      { title:'Studio design - Lyon Presqu\'île', city:'Lyon', surface:32, rooms:1, price:'850 €/mois', img:'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80', type:'Location', slug:'studio-lyon' },
+    ];
+    document.getElementById('featuredGrid').innerHTML = demos.map(d => `
+      <a href="pages/property-detail.html?slug=${d.slug}" class="property-card anim-on-scroll">
+        <div class="property-card__image">
+          <img src="${d.img}" alt="${d.title}" loading="lazy">
+          <div class="property-card__status"><span class="status-badge status-available">🟢 Disponible</span></div>
+          <div class="property-card__type">${d.type}</div>
+          <button class="property-card__favorite" onclick="event.preventDefault()">🤍</button>
+        </div>
+        <div class="property-card__body">
+          <div class="property-card__price">${d.price}</div>
+          <h3 class="property-card__title">${d.title}</h3>
+          <p class="property-card__location">📍 ${d.city}</p>
+          <div class="property-card__features">
+            <span class="property-card__feature">📐 ${d.surface}m²</span>
+            <span class="property-card__feature">🏠 ${d.rooms} pièce${d.rooms > 1 ? 's' : ''}</span>
+          </div>
+          <div class="property-card__cta">
+            <span class="property-card__cta-btn">Voir le bien →</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // Essayer API, sinon démo
+  (async () => {
+    try {
+      if (typeof API !== 'undefined') {
+        const res = await API.properties?.list({ limit:3, status:'available', sort:'newest' });
+        if (res?.success && res.data?.length) {
+          document.getElementById('featuredGrid').innerHTML = res.data.map(p => {
+            const price = p.transaction_type === 'sale'
+              ? new Intl.NumberFormat('fr-FR').format(p.sale_price) + ' €'
+              : new Intl.NumberFormat('fr-FR').format(p.rent_price) + ' €/mois';
+            return `
+              <a href="pages/property-detail.html?slug=${p.slug}" class="property-card anim-on-scroll">
+                <div class="property-card__image">
+                  <img src="${p.cover_image || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80'}" alt="${p.title}" loading="lazy">
+                  <div class="property-card__status"><span class="status-badge status-${p.status}">🟢 ${p.status}</span></div>
+                  <div class="property-card__type">${p.transaction_type === 'sale' ? 'Vente' : 'Location'}</div>
+                </div>
+                <div class="property-card__body">
+                  <div class="property-card__price">${price}</div>
+                  <h3 class="property-card__title">${p.title}</h3>
+                  <p class="property-card__location">📍 ${p.city}</p>
+                  <div class="property-card__features">
+                    ${p.surface ? `<span class="property-card__feature">📐 ${p.surface}m²</span>` : ''}
+                    ${p.rooms ? `<span class="property-card__feature">🏠 ${p.rooms} pièces</span>` : ''}
+                  </div>
+                  <div class="property-card__cta">
+                    <span class="property-card__cta-btn">Voir le bien →</span>
+                  </div>
+                </div>
+              </a>`;
+          }).join('');
+          return;
+        }
+      }
+    } catch {}
+    loadDemoCards();
+  })();
+</script>
+</body>
+</html>

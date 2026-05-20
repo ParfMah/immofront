@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publier un bien — ImmoPrestige</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .publish-page { padding: var(--sp-2xl) 0 var(--sp-3xl); }
+    .publish-hero { background:var(--c-bg-card); border-bottom:1px solid var(--c-border); padding:clamp(32px,6vw,56px) 0; text-align:center; }
+    .publish-hero h1 { font-family:var(--font-display); font-size:var(--text-4xl); color:var(--c-white); margin-bottom:8px; }
+    .publish-hero p { color:var(--c-text-muted); font-size:var(--text-md); max-width:500px; margin:0 auto; }
+
+    .publish-layout { display:grid; grid-template-columns:1fr 300px; gap:clamp(24px,4vw,40px); margin-top:var(--sp-2xl); align-items:start; }
+
+    .form-card { background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-xl); padding:clamp(20px,4vw,36px); margin-bottom:var(--sp-lg); }
+    .form-card-title { font-size:var(--text-xl); font-weight:700; color:var(--c-text); font-family:var(--font-ui); margin-bottom:var(--sp-lg); display:flex; align-items:center; gap:10px; padding-bottom:14px; border-bottom:1px solid var(--c-border); }
+
+    .pub-input { width:100%; padding:clamp(11px,2vw,13px) 14px; background:var(--c-bg); border:1px solid var(--c-border); border-radius:var(--r-md); color:var(--c-text); font-size:var(--text-base); font-family:var(--font-body); outline:none; transition:var(--t-base); -webkit-appearance:none; }
+    .pub-input:focus { border-color:var(--c-gold); background:var(--c-bg-elevated); box-shadow:0 0 0 3px rgba(201,169,110,0.1); }
+    .pub-input::placeholder { color:var(--c-text-faint); }
+    .pub-input option { background:var(--c-bg-elevated); }
+    textarea.pub-input { resize:vertical; min-height:120px; }
+
+    .pub-label { display:block; font-size:var(--text-xs); font-weight:700; font-family:var(--font-ui); color:var(--c-text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
+
+    .pub-group { margin-bottom:clamp(14px,2.5vw,20px); }
+    .pub-row { display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,2vw,14px); }
+    .pub-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:clamp(10px,2vw,14px); }
+
+    /* Upload photos */
+    .photos-upload-zone { border:2px dashed var(--c-border); border-radius:var(--r-lg); padding:clamp(28px,5vw,44px); text-align:center; cursor:pointer; transition:var(--t-base); position:relative; }
+    .photos-upload-zone:hover, .photos-upload-zone.dragover { border-color:var(--c-gold); background:var(--c-gold-glow); }
+    .photos-upload-zone input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+    .photos-upload-zone .upload-icon { font-size:clamp(28px,5vw,40px); margin-bottom:10px; }
+    .photos-upload-zone h4 { font-size:var(--text-md); font-weight:700; color:var(--c-text); margin-bottom:6px; }
+    .photos-upload-zone p { font-size:var(--text-xs); color:var(--c-text-muted); }
+    .photos-preview { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:8px; margin-top:14px; }
+    .photo-prev { position:relative; aspect-ratio:4/3; border-radius:var(--r-md); overflow:hidden; }
+    .photo-prev img { width:100%; height:100%; object-fit:cover; }
+    .photo-prev-del { position:absolute; top:5px; right:5px; background:rgba(239,68,68,0.85); border:none; width:22px; height:22px; border-radius:50%; color:white; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+    /* Checkbox grid */
+    .checkbox-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px; }
+    .cb-item { display:flex; align-items:center; gap:8px; font-size:var(--text-sm); color:var(--c-text-muted); cursor:pointer; padding:8px 10px; border-radius:var(--r-md); border:1px solid var(--c-border); transition:var(--t-base); }
+    .cb-item:hover { border-color:var(--c-gold); color:var(--c-text); }
+    .cb-item input { accent-color:var(--c-gold); width:15px; height:15px; }
+
+    /* Sidebar info */
+    .info-sidebar { position:sticky; top:calc(var(--header-h) + 16px); }
+    .info-card { background:var(--c-bg-card); border:1px solid var(--c-border); border-radius:var(--r-xl); padding:clamp(18px,3vw,24px); margin-bottom:16px; }
+    .info-card h4 { font-size:var(--text-base); font-weight:700; color:var(--c-gold); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .info-card p, .info-card li { font-size:var(--text-sm); color:var(--c-text-muted); line-height:1.7; }
+    .info-card ul { padding-left:16px; list-style:disc; }
+    .info-card ul li { margin-bottom:4px; }
+
+    .steps-list { display:flex; flex-direction:column; gap:12px; }
+    .step-item { display:flex; align-items:flex-start; gap:12px; }
+    .step-num { width:28px; height:28px; background:var(--c-gold-glow); border:1px solid rgba(201,169,110,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--c-gold); flex-shrink:0; font-family:var(--font-ui); }
+    .step-text { font-size:var(--text-sm); color:var(--c-text-muted); line-height:1.5; padding-top:3px; }
+    .step-text strong { color:var(--c-text); display:block; margin-bottom:2px; }
+
+    /* Badge pending */
+    .pending-notice { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); border-radius:var(--r-lg); padding:16px 20px; display:flex; gap:12px; align-items:flex-start; margin-bottom:var(--sp-lg); }
+    .pending-notice p { font-size:var(--text-sm); color:var(--c-orange); line-height:1.6; }
+
+    @media (max-width:900px) { .publish-layout { grid-template-columns:1fr; } .info-sidebar { position:static; } }
+    @media (max-width:600px) { .pub-row, .pub-row-3 { grid-template-columns:1fr; } .checkbox-grid { grid-template-columns:repeat(2,1fr); } }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-brand">
+  <svg class="loader-logo-circle" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#0e0e1c"/><path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="25" r="3.5" fill="#c9a96e"/></svg>
+  <div class="loader-name">ImmoPrestige</div>
+</div><div class="loader-ring"></div></div>
+
+<nav class="mobile-nav" id="mobileNav">
+  <a href="../index.html"   class="mobile-nav-link">Accueil</a>
+  <a href="biens.html"      class="mobile-nav-link">Biens</a>
+  <a href="dashboard.html"  class="mobile-nav-link">Dashboard</a>
+  <div class="mobile-nav-divider"></div>
+  <div class="mobile-nav-actions">
+    <a href="login.html"    class="btn-secondary">Connexion</a>
+  </div>
+</nav>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <svg class="logo-circle" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="url(#lgP)"/><path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="25" r="3.5" fill="#c9a96e"/><defs><radialGradient id="lgP" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#1a1a30"/><stop offset="100%" stop-color="#07070f"/></radialGradient></defs></svg>
+      <div class="logo-text-wrap"><span class="logo-name">Immo<span>Prestige</span></span><span class="logo-tagline">Immobilier Premium</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html" class="nav-link">Accueil</a>
+      <a href="biens.html"    class="nav-link">Biens</a>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+    </nav>
+    <div class="header-actions">
+      <a href="dashboard.html" class="btn-secondary btn-sm">← Mon espace</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span class="ham-line"></span><span class="ham-line"></span><span class="ham-line"></span></button>
+  </div>
+</header>
+
+<div class="publish-hero bg-image-overlay" style="--bg-img:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=40');">
+  <div class="container">
+    <h1>📝 Publier un bien</h1>
+    <p>Remplissez le formulaire ci-dessous. Votre annonce sera examinée par notre équipe avant publication.</p>
+  </div>
+</div>
+
+<main class="publish-page">
+  <div class="container">
+
+    <!-- Notice workflow -->
+    <div class="pending-notice">
+      <span style="font-size:22px; flex-shrink:0;">⏳</span>
+      <div>
+        <p><strong style="color:var(--c-orange);">Processus de validation :</strong> Après soumission, votre annonce sera en attente de validation par notre équipe (24-48h). Vous recevrez un email dès qu'elle sera examinée. Une annonce validée apparaîtra automatiquement sur le site.</p>
+      </div>
+    </div>
+
+    <div class="publish-layout">
+      <!-- FORMULAIRE -->
+      <div>
+
+        <!-- 1. TYPE -->
+        <div class="form-card">
+          <div class="form-card-title">🏷 Type d'annonce</div>
+          <div class="pub-row">
+            <div class="pub-group">
+              <label class="pub-label">Transaction *</label>
+              <select class="pub-input" id="transactionType" required>
+                <option value="">Choisir…</option>
+                <option value="rent">Location</option>
+                <option value="sale">Vente</option>
+              </select>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Type de bien *</label>
+              <select class="pub-input" id="propertyType" required>
+                <option value="">Choisir…</option>
+                <option value="apartment">Appartement</option>
+                <option value="house">Maison</option>
+                <option value="studio">Studio</option>
+                <option value="villa">Villa</option>
+                <option value="loft">Loft</option>
+                <option value="room">Chambre en coloc</option>
+                <option value="garage">Garage / Parking</option>
+                <option value="commercial">Local commercial</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. INFORMATIONS -->
+        <div class="form-card">
+          <div class="form-card-title">📋 Informations générales</div>
+          <div class="pub-group">
+            <label class="pub-label">Titre de l'annonce *</label>
+            <input type="text" class="pub-input" id="pubTitle" placeholder="Ex: Appartement lumineux T3 avec balcon - Paris 16e" required maxlength="120">
+            <small style="font-size:var(--text-xs); color:var(--c-text-faint); margin-top:4px; display:block;"><span id="titleCount">0</span>/120 caractères</small>
+          </div>
+          <div class="pub-group">
+            <label class="pub-label">Description *</label>
+            <textarea class="pub-input" id="pubDescription" rows="6" placeholder="Décrivez votre bien en détail : emplacement, agencement, équipements, points forts, état général…" required></textarea>
+          </div>
+        </div>
+
+        <!-- 3. LOCALISATION -->
+        <div class="form-card">
+          <div class="form-card-title">📍 Localisation</div>
+          <div class="pub-row">
+            <div class="pub-group">
+              <label class="pub-label">Adresse *</label>
+              <input type="text" class="pub-input" id="pubAddress" placeholder="Numéro et nom de rue" required>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Complément</label>
+              <input type="text" class="pub-input" id="pubAddressComp" placeholder="Bâtiment, étage…">
+            </div>
+          </div>
+          <div class="pub-row-3">
+            <div class="pub-group">
+              <label class="pub-label">Code postal *</label>
+              <input type="text" class="pub-input" id="pubZip" placeholder="75001" required maxlength="10">
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Ville *</label>
+              <input type="text" class="pub-input" id="pubCity" placeholder="Paris" required>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Quartier</label>
+              <input type="text" class="pub-input" id="pubNeighborhood" placeholder="Marais, Bellecour…">
+            </div>
+          </div>
+          <div class="pub-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="pubExactAddress" style="accent-color:var(--c-gold);width:16px;height:16px;">
+              <span>Afficher l'adresse exacte publiquement (sinon, zone approximative uniquement)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. CARACTÉRISTIQUES -->
+        <div class="form-card">
+          <div class="form-card-title">📐 Caractéristiques</div>
+          <div class="pub-row-3">
+            <div class="pub-group">
+              <label class="pub-label">Surface (m²) *</label>
+              <input type="number" class="pub-input" id="pubSurface" placeholder="75" min="1" required>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Nombre de pièces</label>
+              <input type="number" class="pub-input" id="pubRooms" placeholder="3" min="1">
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Chambres</label>
+              <input type="number" class="pub-input" id="pubBedrooms" placeholder="2" min="0">
+            </div>
+          </div>
+          <div class="pub-row-3">
+            <div class="pub-group">
+              <label class="pub-label">Salle de bain(s)</label>
+              <input type="number" class="pub-input" id="pubBathrooms" placeholder="1" min="0">
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Étage</label>
+              <input type="number" class="pub-input" id="pubFloor" placeholder="0 = RDC" min="0">
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Nb. étages total</label>
+              <input type="number" class="pub-input" id="pubTotalFloors" placeholder="6" min="1">
+            </div>
+          </div>
+          <div class="pub-row">
+            <div class="pub-group">
+              <label class="pub-label">Classe énergie</label>
+              <select class="pub-input" id="pubEnergy">
+                <option value="">Non renseigné</option>
+                <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                <option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+              </select>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Classe GES</label>
+              <select class="pub-input" id="pubGes">
+                <option value="">Non renseigné</option>
+                <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                <option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:4px;">
+            <div style="display:flex; gap:20px; flex-wrap:wrap;">
+              <label class="checkbox-label"><input type="checkbox" id="pubFurnished" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Meublé</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="pubPets" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Animaux acceptés</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="pubElevator" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Ascenseur</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="pubParking" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Parking</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="pubTerrace" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Terrasse / Balcon</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="pubPool" style="accent-color:var(--c-gold);width:15px;height:15px;"><span>Piscine</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. PRIX -->
+        <div class="form-card">
+          <div class="form-card-title">💶 Informations financières</div>
+          <div id="rentFields">
+            <div class="pub-row">
+              <div class="pub-group">
+                <label class="pub-label">Loyer HC (€/mois) *</label>
+                <input type="number" class="pub-input" id="pubRentPrice" placeholder="1200" min="0">
+              </div>
+              <div class="pub-group">
+                <label class="pub-label">Charges (€/mois)</label>
+                <input type="number" class="pub-input" id="pubCharges" placeholder="150" min="0">
+              </div>
+            </div>
+            <div class="pub-group">
+              <label class="pub-label">Dépôt de garantie (€)</label>
+              <input type="number" class="pub-input" id="pubDeposit" placeholder="2400" min="0">
+            </div>
+          </div>
+          <div id="saleFields" style="display:none;">
+            <div class="pub-row">
+              <div class="pub-group">
+                <label class="pub-label">Prix de vente (€) *</label>
+                <input type="number" class="pub-input" id="pubSalePrice" placeholder="350000" min="0">
+              </div>
+              <div class="pub-group">
+                <label class="pub-label">Taxe foncière (€/an)</label>
+                <input type="number" class="pub-input" id="pubTax" placeholder="1200" min="0">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. ÉQUIPEMENTS -->
+        <div class="form-card">
+          <div class="form-card-title">✅ Équipements & Prestations</div>
+          <div class="checkbox-grid" id="amenitiesGrid"></div>
+        </div>
+
+        <!-- 7. PHOTOS -->
+        <div class="form-card">
+          <div class="form-card-title">📸 Photos du bien</div>
+          <p style="font-size:var(--text-sm); color:var(--c-text-muted); margin-bottom:14px;">Minimum 3 photos recommandées. Formats acceptés : JPG, PNG, WEBP. Max 10 MB par photo.</p>
+          <div class="photos-upload-zone" id="photosZone">
+            <input type="file" id="photosInput" accept="image/jpeg,image/png,image/webp" multiple>
+            <div class="upload-icon">📷</div>
+            <h4>Déposez vos photos ici</h4>
+            <p>ou cliquez pour parcourir vos fichiers</p>
+          </div>
+          <div class="photos-preview" id="photosPreview"></div>
+        </div>
+
+        <!-- ALERTE -->
+        <div class="alert-message" id="pubAlert" style="display:none;"></div>
+
+        <!-- BOUTONS -->
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <button class="btn-primary btn-lg" id="btnPublish" onclick="submitProperty()">
+            <span class="btn-text">📤 Soumettre pour validation</span>
+            <span class="btn-loader" style="display:none;">⏳</span>
+          </button>
+          <button class="btn-secondary btn-lg" onclick="saveDraft()">💾 Sauvegarder brouillon</button>
+        </div>
+        <p style="font-size:var(--text-xs); color:var(--c-text-faint); margin-top:10px;">Votre annonce sera en attente de validation (24-48h). Vous serez notifié par email.</p>
+
+      </div>
+
+      <!-- SIDEBAR INFO -->
+      <div class="info-sidebar">
+
+        <div class="info-card">
+          <h4>📋 Processus de publication</h4>
+          <div class="steps-list">
+            <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>Vous soumettez</strong>Votre annonce est envoyée à notre équipe.</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>Examen (24-48h)</strong>Notre équipe vérifie et peut modifier votre annonce.</div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="step-text"><strong>Notification email</strong>Vous recevez un email d'acceptation ou de refus.</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="step-text"><strong>Publication</strong>Si acceptée, l'annonce apparaît sur le site.</div></div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h4>💡 Conseils pour une bonne annonce</h4>
+          <ul>
+            <li>Titre clair et accrocheur</li>
+            <li>Description détaillée (min. 200 mots)</li>
+            <li>Minimum 5 photos de qualité</li>
+            <li>Prix cohérent avec le marché</li>
+            <li>Toutes les caractéristiques renseignées</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h4>⚖️ Règles de publication</h4>
+          <p>Les annonces mensongères, les prix abusifs ou les biens ne correspondant pas à la description seront refusés. Consultez nos <a href="legal/cgu.html" style="color:var(--c-gold);">CGU</a> pour plus d'informations.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer" style="margin-top:0;">
+  <div class="container"><div class="footer-bottom"><p>© 2024 ImmoPrestige.</p><div class="footer-bottom-links"><a href="legal/mentions-legales.html">Mentions légales</a><a href="legal/cgu.html">CGU</a></div></div></div>
+</footer>
+
+<script src="../assets/js/loader.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof Auth !== 'undefined' && !Auth.requireAuth()) return;
+
+  // Switcher rent/sale
+  document.getElementById('transactionType').addEventListener('change', function() {
+    document.getElementById('rentFields').style.display = this.value === 'sale' ? 'none' : 'block';
+    document.getElementById('saleFields').style.display = this.value === 'sale' ? 'block' : 'none';
+  });
+
+  // Compteur titre
+  document.getElementById('pubTitle').addEventListener('input', function() {
+    document.getElementById('titleCount').textContent = this.value.length;
+  });
+
+  // Équipements checkboxes
+  const amenities = ['Ascenseur','Interphone','Digicode','Cave','Gardien','Parking','Garage','Terrasse','Balcon','Jardin','Piscine','Cuisine équipée','Lave-linge','Lave-vaisselle','Double vitrage','Climatisation','Chauffage central','Cheminée','Parquet','WiFi inclus'];
+  document.getElementById('amenitiesGrid').innerHTML = amenities.map(a => `
+    <label class="cb-item">
+      <input type="checkbox" name="amenity" value="${a}" style="accent-color:var(--c-gold);width:14px;height:14px;"> ${a}
+    </label>`).join('');
+
+  // Photos upload
+  const photosInput = document.getElementById('photosInput');
+  const preview = document.getElementById('photosPreview');
+  let photoFiles = [];
+
+  photosInput.addEventListener('change', function() {
+    Array.from(this.files).forEach(file => {
+      if (photoFiles.length >= 15) return;
+      photoFiles.push(file);
+      const url = URL.createObjectURL(file);
+      const div = document.createElement('div');
+      div.className = 'photo-prev';
+      div.innerHTML = `<img src="${url}" alt=""><button class="photo-prev-del" onclick="removePhoto(this)">×</button>`;
+      preview.appendChild(div);
+    });
+  });
+
+  // Drag & drop
+  const zone = document.getElementById('photosZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); photosInput.files = e.dataTransfer.files; photosInput.dispatchEvent(new Event('change')); });
+});
+
+function removePhoto(btn) {
+  const div = btn.closest('.photo-prev');
+  const idx = Array.from(div.parentNode.children).indexOf(div);
+  photoFiles.splice(idx, 1);
+  div.remove();
+}
+
+async function submitProperty() {
+  const title       = document.getElementById('pubTitle').value.trim();
+  const description = document.getElementById('pubDescription').value.trim();
+  const city        = document.getElementById('pubCity').value.trim();
+  const surface     = document.getElementById('pubSurface').value;
+  const txType      = document.getElementById('transactionType').value;
+
+  const alert = document.getElementById('pubAlert');
+
+  if (!title || !description || !city || !surface || !txType) {
+    alert.textContent = '⚠️ Veuillez remplir tous les champs obligatoires (*)';
+    alert.className = 'alert-message alert-error';
+    alert.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const btn = document.getElementById('btnPublish');
+  btn.disabled = true;
+  document.querySelector('.btn-text').style.display = 'none';
+  document.querySelector('.btn-loader').style.display = 'inline';
+
+  const data = {
+    title, description, city,
+    surface: parseFloat(surface),
+    transaction_type: txType,
+    property_type: document.getElementById('propertyType').value,
+    address: document.getElementById('pubAddress').value,
+    zip_code: document.getElementById('pubZip').value,
+    neighborhood: document.getElementById('pubNeighborhood').value,
+    rooms: parseInt(document.getElementById('pubRooms').value) || null,
+    bedrooms: parseInt(document.getElementById('pubBedrooms').value) || null,
+    bathrooms: parseInt(document.getElementById('pubBathrooms').value) || null,
+    floor: parseInt(document.getElementById('pubFloor').value) ?? null,
+    furnished: document.getElementById('pubFurnished').checked,
+    pets_allowed: document.getElementById('pubPets').checked,
+    rent_price: parseFloat(document.getElementById('pubRentPrice').value) || null,
+    charges: parseFloat(document.getElementById('pubCharges').value) || null,
+    deposit: parseFloat(document.getElementById('pubDeposit').value) || null,
+    sale_price: parseFloat(document.getElementById('pubSalePrice').value) || null,
+    energy_class: document.getElementById('pubEnergy').value || null,
+    ges_class: document.getElementById('pubGes').value || null,
+    amenities: Array.from(document.querySelectorAll('input[name="amenity"]:checked')).map(el => el.value),
+    status: 'pending_review', // ✅ TOUJOURS en attente de validation
+    show_exact_address: document.getElementById('pubExactAddress').checked,
+  };
+
+  try {
+    let res = null;
+    if (typeof API !== 'undefined') {
+      res = await API.properties.create(data).catch(() => null);
+    }
+
+    if (res?.success) {
+      alert.innerHTML = `✅ <strong>Annonce soumise avec succès !</strong> Elle est maintenant en attente de validation par notre équipe. Vous recevrez un email sous 24-48h.`;
+      alert.className = 'alert-message alert-success';
+      alert.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => window.location.href = 'dashboard.html', 3500);
+    } else {
+      // Mode démo
+      alert.innerHTML = `✅ <strong>Annonce soumise ! (Mode démo)</strong> En production, elle serait envoyée à l'administrateur pour validation.`;
+      alert.className = 'alert-message alert-success';
+      alert.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  } catch {
+    alert.textContent = '❌ Erreur lors de la soumission. Réessayez.';
+    alert.className = 'alert-message alert-error';
+    alert.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  document.querySelector('.btn-text').style.display = 'inline';
+  document.querySelector('.btn-loader').style.display = 'none';
+}
+
+async function saveDraft() {
+  if (typeof Toast !== 'undefined') Toast.show('💾 Brouillon sauvegardé.', 'info');
+}
+
+window.removePhoto = removePhoto;
+</script>
+</body>
+</html>

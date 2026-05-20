@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valider les annonces — Admin ImmoPrestige</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <style>
+    body { background: var(--c-bg); }
+    .admin-layout { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - var(--header-h)); }
+
+    /* SIDEBAR ADMIN */
+    .admin-sidebar { background: var(--c-bg-card); border-right: 1px solid var(--c-border); padding: var(--sp-xl) 0; position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); overflow-y: auto; }
+    .admin-sidebar-title { font-size: var(--text-xs); font-weight: 700; font-family: var(--font-ui); color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 2px; padding: 0 20px 10px; }
+    .admin-nav-link { display: flex; align-items: center; gap: 10px; padding: 11px 20px; font-size: var(--text-sm); color: var(--c-text-muted); cursor: pointer; transition: var(--t-fast); text-decoration: none; }
+    .admin-nav-link:hover { background: var(--c-bg-glass); color: var(--c-text); }
+    .admin-nav-link.active { background: var(--c-gold-glow); color: var(--c-gold); border-right: 2px solid var(--c-gold); font-weight: 600; }
+    .admin-nav-badge { margin-left: auto; background: var(--c-orange-bg); color: var(--c-orange); font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: var(--r-full); font-family: var(--font-ui); }
+
+    /* MAIN */
+    .admin-main { padding: var(--sp-xl); overflow: auto; }
+    .admin-page-title { font-family: var(--font-display); font-size: var(--text-3xl); color: var(--c-white); margin-bottom: 6px; }
+    .admin-page-sub { color: var(--c-text-muted); font-size: var(--text-sm); margin-bottom: var(--sp-xl); }
+
+    /* FILTRES */
+    .admin-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: var(--sp-lg); }
+    .filter-chip { padding: 8px 18px; border-radius: var(--r-full); border: 1px solid var(--c-border); background: var(--c-bg-card); color: var(--c-text-muted); font-size: var(--text-xs); font-weight: 700; font-family: var(--font-ui); cursor: pointer; transition: var(--t-base); white-space: nowrap; }
+    .filter-chip:hover { border-color: var(--c-gold); color: var(--c-gold); }
+    .filter-chip.active { background: var(--c-gold); color: #080810; border-color: var(--c-gold); }
+
+    /* PROPERTY REVIEW CARD */
+    .review-card { background: var(--c-bg-card); border: 1px solid var(--c-border); border-radius: var(--r-xl); overflow: hidden; margin-bottom: var(--sp-lg); transition: var(--t-base); }
+    .review-card:hover { border-color: rgba(201,169,110,0.2); box-shadow: var(--shadow-md); }
+    .review-card.pending { border-left: 3px solid var(--c-orange); }
+    .review-card.approved { border-left: 3px solid var(--c-green); }
+    .review-card.rejected { border-left: 3px solid var(--c-red); }
+
+    .review-header { display: grid; grid-template-columns: 140px 1fr auto; gap: 20px; padding: clamp(16px,3vw,22px); align-items: center; }
+    .review-img { width: 140px; height: 100px; border-radius: var(--r-md); overflow: hidden; background: var(--c-bg-elevated); flex-shrink: 0; }
+    .review-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .review-info h3 { font-size: var(--text-md); font-weight: 700; color: var(--c-text); margin-bottom: 5px; }
+    .review-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; font-size: var(--text-xs); color: var(--c-text-muted); font-family: var(--font-ui); }
+    .review-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .review-actions { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+
+    /* PANNEAU ÉDITION */
+    .review-body { border-top: 1px solid var(--c-border); padding: clamp(16px,3vw,24px); display: none; }
+    .review-body.open { display: block; }
+
+    .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .edit-field { display: flex; flex-direction: column; gap: 6px; }
+    .edit-label { font-size: var(--text-xs); font-weight: 700; font-family: var(--font-ui); color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+    .edit-input { padding: 10px 13px; background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-md); color: var(--c-text); font-size: var(--text-sm); font-family: var(--font-body); outline: none; transition: var(--t-base); }
+    .edit-input:focus { border-color: var(--c-gold); }
+    .edit-input option { background: var(--c-bg-elevated); }
+    textarea.edit-input { resize: vertical; min-height: 90px; }
+
+    /* VISITE VIRTUELLE */
+    .vt-section { background: rgba(96,165,250,0.06); border: 1px solid rgba(96,165,250,0.15); border-radius: var(--r-lg); padding: 16px 20px; margin-bottom: 16px; }
+    .vt-section h4 { font-size: var(--text-sm); font-weight: 700; color: var(--c-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .vt-section p { font-size: var(--text-xs); color: var(--c-text-muted); margin-bottom: 12px; line-height: 1.5; }
+
+    /* Actions panneau */
+    .panel-actions { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--c-border); }
+
+    /* Raison refus */
+    .reject-reason { background: var(--c-red-bg); border: 1px solid rgba(239,68,68,0.2); border-radius: var(--r-lg); padding: 14px 16px; margin-bottom: 14px; display: none; }
+    .reject-reason textarea { width: 100%; padding: 10px; background: transparent; border: 1px solid rgba(239,68,68,0.3); border-radius: var(--r-md); color: var(--c-red); font-size: var(--text-sm); resize: vertical; min-height: 70px; outline: none; font-family: var(--font-body); }
+
+    /* Stats */
+    .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: var(--sp-xl); }
+    .admin-stat { background: var(--c-bg-card); border: 1px solid var(--c-border); border-radius: var(--r-lg); padding: 20px; text-align: center; }
+    .admin-stat-num { font-family: var(--font-display); font-size: clamp(24px,4vw,32px); font-weight: 700; color: var(--c-gold); display: block; }
+    .admin-stat-label { font-size: var(--text-xs); color: var(--c-text-muted); font-family: var(--font-ui); }
+
+    /* Email preview */
+    .email-preview { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-md); padding: 14px 16px; margin-top: 12px; font-size: var(--text-xs); color: var(--c-text-muted); }
+    .email-preview strong { color: var(--c-gold); display: block; margin-bottom: 4px; }
+
+    @media (max-width:900px) { .admin-layout { grid-template-columns:1fr; } .admin-sidebar { display:none; } .review-header { grid-template-columns:1fr; } .admin-stats { grid-template-columns:repeat(2,1fr); } .edit-grid { grid-template-columns:1fr; } }
+    @media (max-width:480px) { .admin-stats { grid-template-columns:1fr 1fr; } .review-actions { flex-direction:row; } }
+  </style>
+</head>
+<body>
+
+<div id="page-loader"><div class="loader-brand">
+  <svg class="loader-logo-circle" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="#0e0e1c"/><path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="25" r="3.5" fill="#c9a96e"/></svg>
+  <div class="loader-name">Admin</div>
+</div><div class="loader-ring"></div></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../../index.html" class="logo">
+      <svg class="logo-circle" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="32" fill="url(#lgAdm)"/><path d="M32 14L13 26.5V50H24V38H40V50H51V26.5L32 14Z" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="25" r="3.5" fill="#c9a96e"/><defs><radialGradient id="lgAdm" cx="50%" cy="30%" r="70%"><stop offset="0%" stop-color="#1a1a30"/><stop offset="100%" stop-color="#07070f"/></radialGradient></defs></svg>
+      <div class="logo-text-wrap"><span class="logo-name">Immo<span>Prestige</span></span><span class="logo-tagline">Administration</span></div>
+    </a>
+    <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
+      <span style="font-size:var(--text-xs); color:var(--c-text-muted);">👤 Admin</span>
+      <a href="../login.html" class="btn-ghost btn-sm">Déconnexion</a>
+    </div>
+  </div>
+</header>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-title">Navigation</div>
+    <a href="dashboard.html"             class="admin-nav-link">📊 Dashboard</a>
+    <a href="validate-properties.html"   class="admin-nav-link active">🏠 Annonces<span class="admin-nav-badge" id="pendingBadge">0</span></a>
+    <a href="users.html"                 class="admin-nav-link">👥 Utilisateurs</a>
+    <a href="reservations.html"          class="admin-nav-link">🔑 Réservations</a>
+    <a href="rib-manager.html"           class="admin-nav-link">💳 RIB</a>
+    <a href="messages.html"              class="admin-nav-link">💬 Messagerie</a>
+    <a href="cms.html"                   class="admin-nav-link">🎨 CMS</a>
+    <div style="height:1px; background:var(--c-border); margin:12px 20px;"></div>
+    <a href="../../index.html"           class="admin-nav-link">🌐 Voir le site</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-page-title">Validation des annonces</div>
+    <p class="admin-page-sub">Examinez, modifiez et validez les annonces soumises par les propriétaires.</p>
+
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="admin-stat"><span class="admin-stat-num" id="statPending">0</span><span class="admin-stat-label">⏳ En attente</span></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="statApproved">0</span><span class="admin-stat-label">✅ Validées</span></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="statRejected">0</span><span class="admin-stat-label">❌ Refusées</span></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="statTotal">0</span><span class="admin-stat-label">📋 Total</span></div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="admin-filters">
+      <button class="filter-chip active" data-status="pending_review">⏳ En attente</button>
+      <button class="filter-chip" data-status="available">✅ Validées</button>
+      <button class="filter-chip" data-status="rejected">❌ Refusées</button>
+      <button class="filter-chip" data-status="">Toutes</button>
+    </div>
+
+    <div id="propertiesList"></div>
+    <div id="emptyMsg" style="display:none; text-align:center; padding:60px; color:var(--c-text-muted);">
+      <div style="font-size:48px; margin-bottom:16px;">🎉</div>
+      <p>Aucune annonce dans cette catégorie.</p>
+    </div>
+    <div id="loadingMsg" style="text-align:center; padding:60px; color:var(--c-text-muted);">⏳ Chargement…</div>
+
+  </main>
+</div>
+
+<script src="../../assets/js/loader.js"></script>
+<script src="../../assets/js/api.js"></script>
+<script src="../../assets/js/auth.js"></script>
+<script>
+// Données démo
+const DEMO_PENDING = [
+  {
+    id:'p1', status:'pending_review', created_at:'2024-01-15T10:30:00Z',
+    title:'T3 lumineux avec terrasse - Bordeaux Chartrons', city:'Bordeaux', neighborhood:'Chartrons',
+    transaction_type:'rent', property_type:'apartment',
+    rent_price:1250, charges:120, deposit:2500, surface:68, rooms:3, bedrooms:2,
+    description:'Magnifique T3 de 68m² entièrement rénové situé dans le quartier des Chartrons...',
+    amenities:['Terrasse','Cave','Double vitrage','Cuisine équipée'],
+    energy_class:'C', ges_class:'D',
+    virtual_tour_url: '',
+    images:['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80','https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80'],
+    owner: { name:'Marc Dupont', email:'marc.dupont@email.com' },
+  },
+  {
+    id:'p2', status:'pending_review', created_at:'2024-01-14T15:00:00Z',
+    title:'Studio étudiant meublé - Lyon Part-Dieu', city:'Lyon', neighborhood:'Part-Dieu',
+    transaction_type:'rent', property_type:'studio',
+    rent_price:720, charges:60, deposit:1440, surface:24, rooms:1, bedrooms:1,
+    description:'Studio de 24m² entièrement meublé et équipé, idéal pour étudiant...',
+    amenities:['Meublé','Wifi inclus','Proche transports'],
+    energy_class:'D', ges_class:'C',
+    virtual_tour_url: '',
+    images:['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80'],
+    owner: { name:'Sophie Martin', email:'sophie.martin@email.com' },
+  },
+  {
+    id:'p3', status:'pending_review', created_at:'2024-01-13T09:00:00Z',
+    title:'Maison 5 pièces avec jardin - Toulouse Sud', city:'Toulouse', neighborhood:'Rangueil',
+    transaction_type:'sale', property_type:'house',
+    sale_price:380000, property_tax:1800, surface:125, rooms:5, bedrooms:3,
+    description:'Belle maison de 125m² avec jardin de 400m² dans quartier résidentiel calme...',
+    amenities:['Jardin','Garage','Cuisine équipée','Terrasse'],
+    energy_class:'B', ges_class:'A',
+    virtual_tour_url: '',
+    images:['https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'],
+    owner: { name:'Jean-Pierre Leblanc', email:'jp.leblanc@email.com' },
+  },
+];
+
+let currentFilter = 'pending_review';
+let properties = [...DEMO_PENDING];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  updateStats();
+  renderProperties();
+  document.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.status;
+      renderProperties();
+    });
+  });
+  document.getElementById('pendingBadge').textContent = properties.filter(p => p.status === 'pending_review').length;
+});
+
+function updateStats() {
+  document.getElementById('statPending').textContent  = properties.filter(p => p.status === 'pending_review').length;
+  document.getElementById('statApproved').textContent = properties.filter(p => p.status === 'available').length;
+  document.getElementById('statRejected').textContent = properties.filter(p => p.status === 'rejected').length;
+  document.getElementById('statTotal').textContent    = properties.length;
+  document.getElementById('pendingBadge').textContent = properties.filter(p => p.status === 'pending_review').length;
+}
+
+function renderProperties() {
+  const filtered = currentFilter ? properties.filter(p => p.status === currentFilter) : properties;
+  document.getElementById('loadingMsg').style.display = 'none';
+  const list = document.getElementById('propertiesList');
+
+  if (!filtered.length) {
+    list.innerHTML = '';
+    document.getElementById('emptyMsg').style.display = 'block';
+    return;
+  }
+
+  document.getElementById('emptyMsg').style.display = 'none';
+  const price = p => p.transaction_type === 'rent'
+    ? `${p.rent_price?.toLocaleString('fr-FR')} €/mois`
+    : `${p.sale_price?.toLocaleString('fr-FR')} €`;
+
+  list.innerHTML = filtered.map(p => `
+    <div class="review-card ${p.status === 'pending_review' ? 'pending' : p.status === 'available' ? 'approved' : 'rejected'}" id="card-${p.id}">
+      <div class="review-header">
+        <div class="review-img">
+          <img src="${p.images?.[0] || ''}" alt="${p.title}" loading="lazy">
+        </div>
+        <div class="review-info">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+            <span class="status-badge status-${p.status === 'pending_review' ? 'pending' : p.status === 'available' ? 'available' : 'occupied'}">
+              ${p.status === 'pending_review' ? '⏳ En attente' : p.status === 'available' ? '✅ Validée' : '❌ Refusée'}
+            </span>
+            <span style="font-size:var(--text-xs); color:var(--c-text-faint);">${new Date(p.created_at).toLocaleDateString('fr-FR', {day:'2-digit',month:'short',year:'numeric'})}</span>
+          </div>
+          <h3>${p.title}</h3>
+          <div class="review-meta">
+            <span>📍 ${p.city}</span>
+            <span>📐 ${p.surface}m²</span>
+            <span>💶 ${price(p)}</span>
+            <span>👤 ${p.owner?.name}</span>
+            <span>✉️ ${p.owner?.email}</span>
+          </div>
+          <button class="btn-ghost btn-sm" onclick="togglePanel('${p.id}')">🔍 Voir & modifier</button>
+        </div>
+        <div class="review-actions">
+          ${p.status === 'pending_review' ? `
+            <button class="btn-primary btn-sm" onclick="approveProperty('${p.id}')">✅ Valider</button>
+            <button class="btn-secondary btn-sm" style="color:var(--c-red);border-color:rgba(239,68,68,0.3);" onclick="showRejectPanel('${p.id}')">❌ Refuser</button>
+          ` : p.status === 'available' ? `
+            <button class="btn-secondary btn-sm" onclick="unpublishProperty('${p.id}')">⏸ Dépublier</button>
+          ` : `
+            <button class="btn-secondary btn-sm" onclick="approveProperty('${p.id}')">♻️ Revalider</button>
+          `}
+        </div>
+      </div>
+
+      <!-- PANNEAU ÉDITION -->
+      <div class="review-body" id="panel-${p.id}">
+
+        <!-- VISITE VIRTUELLE -->
+        <div class="vt-section">
+          <h4>🥽 Visite Virtuelle 360°</h4>
+          <p>Renseignez un lien de visite virtuelle (Matterport, YouTube 360°, etc.). Le bouton "Visite Virtuelle" apparaîtra automatiquement sur l'annonce si ce champ est rempli.</p>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <input type="url" class="edit-input" id="vt-${p.id}" value="${p.virtual_tour_url || ''}" placeholder="https://my.matterport.com/show/?m=..." style="flex:1; min-width:200px;">
+            <button class="btn-primary btn-sm" onclick="saveVTUrl('${p.id}')">💾 Sauvegarder</button>
+            ${p.virtual_tour_url ? `<a href="${p.virtual_tour_url}" target="_blank" class="btn-ghost btn-sm">👁 Tester</a>` : ''}
+          </div>
+          <div id="vt-status-${p.id}" style="font-size:var(--text-xs); margin-top:8px;"></div>
+        </div>
+
+        <!-- ÉDITION CHAMPS -->
+        <div class="edit-grid">
+          <div class="edit-field" style="grid-column:1/-1;">
+            <label class="edit-label">Titre</label>
+            <input type="text" class="edit-input" id="edit-title-${p.id}" value="${p.title}">
+          </div>
+          <div class="edit-field" style="grid-column:1/-1;">
+            <label class="edit-label">Description</label>
+            <textarea class="edit-input" id="edit-desc-${p.id}">${p.description}</textarea>
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">Ville</label>
+            <input type="text" class="edit-input" id="edit-city-${p.id}" value="${p.city}">
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">Quartier</label>
+            <input type="text" class="edit-input" id="edit-neigh-${p.id}" value="${p.neighborhood || ''}">
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">${p.transaction_type === 'rent' ? 'Loyer HC (€/mois)' : 'Prix de vente (€)'}</label>
+            <input type="number" class="edit-input" id="edit-price-${p.id}" value="${p.transaction_type === 'rent' ? (p.rent_price||'') : (p.sale_price||'')}">
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">Surface (m²)</label>
+            <input type="number" class="edit-input" id="edit-surface-${p.id}" value="${p.surface}">
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">Classe énergie</label>
+            <select class="edit-input" id="edit-energy-${p.id}">
+              ${['','A','B','C','D','E','F','G'].map(c => `<option value="${c}" ${p.energy_class===c?'selected':''}>${c||'Non renseigné'}</option>`).join('')}
+            </select>
+          </div>
+          <div class="edit-field">
+            <label class="edit-label">Note interne (non visible)</label>
+            <input type="text" class="edit-input" id="edit-note-${p.id}" placeholder="Commentaire pour l'équipe…">
+          </div>
+        </div>
+
+        <!-- Raison refus -->
+        <div class="reject-reason" id="reject-panel-${p.id}">
+          <p style="font-size:var(--text-xs); color:var(--c-red); font-weight:700; margin-bottom:8px;">❌ Motif du refus (sera envoyé par email au propriétaire)</p>
+          <textarea id="reject-reason-${p.id}" placeholder="Expliquez pourquoi cette annonce est refusée…"></textarea>
+        </div>
+
+        <!-- Aperçu email -->
+        <div class="email-preview" id="email-preview-${p.id}">
+          <strong>📧 Email envoyé au propriétaire (${p.owner?.email}) :</strong>
+          Lors de la validation → "Votre annonce <em>${p.title}</em> a été validée et est maintenant publiée."<br>
+          Lors du refus → "Votre annonce <em>${p.title}</em> a été refusée. Motif : [votre raison]."
+        </div>
+
+        <!-- Actions -->
+        <div class="panel-actions">
+          <button class="btn-secondary btn-sm" onclick="saveEdits('${p.id}')">💾 Sauvegarder les modifications</button>
+          ${p.status === 'pending_review' ? `
+            <button class="btn-primary btn-sm" onclick="approveProperty('${p.id}')">✅ Valider et publier</button>
+            <button class="btn-secondary btn-sm" style="color:var(--c-red);" onclick="confirmReject('${p.id}')">❌ Confirmer le refus</button>
+          ` : ''}
+          <button class="btn-ghost btn-sm" onclick="togglePanel('${p.id}')">↑ Fermer</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePanel(id) {
+  const panel = document.getElementById(`panel-${id}`);
+  panel.classList.toggle('open');
+}
+
+function showRejectPanel(id) {
+  const panel = document.getElementById(`reject-panel-${id}`);
+  panel.style.display = panel.style.display === 'none' || !panel.style.display ? 'block' : 'none';
+  togglePanel(id);
+}
+
+async function approveProperty(id) {
+  const prop = properties.find(p => p.id === id);
+  if (!prop) return;
+
+  const vtUrl = document.getElementById(`vt-${id}`)?.value?.trim() || null;
+  prop.virtual_tour_url = vtUrl;
+  prop.status = 'available';
+
+  try {
+    if (typeof API !== 'undefined') {
+      await API.patch(`/properties/${id}/status`, { status:'available', virtual_tour_url: vtUrl });
+    }
+  } catch {}
+
+  if (typeof Toast !== 'undefined') Toast.show(`✅ Annonce "${prop.title}" validée ! Email envoyé à ${prop.owner?.email}`, 'success', 5000);
+  updateStats();
+  renderProperties();
+}
+
+async function confirmReject(id) {
+  const prop = properties.find(p => p.id === id);
+  if (!prop) return;
+  const reason = document.getElementById(`reject-reason-${id}`)?.value?.trim();
+  if (!reason) { if (typeof Toast !== 'undefined') Toast.show('Veuillez saisir un motif de refus.', 'warning'); return; }
+
+  prop.status = 'rejected';
+
+  try {
+    if (typeof API !== 'undefined') {
+      await API.patch(`/properties/${id}/status`, { status:'rejected', reject_reason: reason });
+    }
+  } catch {}
+
+  if (typeof Toast !== 'undefined') Toast.show(`❌ Annonce refusée. Email envoyé à ${prop.owner?.email}`, 'info', 5000);
+  updateStats();
+  renderProperties();
+}
+
+function saveVTUrl(id) {
+  const url = document.getElementById(`vt-${id}`)?.value?.trim();
+  const statusEl = document.getElementById(`vt-status-${id}`);
+  const prop = properties.find(p => p.id === id);
+  if (prop) prop.virtual_tour_url = url;
+
+  if (url) {
+    statusEl.innerHTML = `<span style="color:var(--c-green);">✅ URL sauvegardée. Le bouton "Visite Virtuelle" apparaîtra sur l'annonce.</span>`;
+  } else {
+    statusEl.innerHTML = `<span style="color:var(--c-text-faint);">ℹ️ Champ vide — le bouton "Visite Virtuelle" n'apparaîtra pas.</span>`;
+  }
+
+  if (typeof Toast !== 'undefined') Toast.show(url ? '🥽 URL visite virtuelle sauvegardée !' : 'Visite virtuelle désactivée.', 'success');
+}
+
+function saveEdits(id) {
+  const prop = properties.find(p => p.id === id);
+  if (!prop) return;
+  prop.title       = document.getElementById(`edit-title-${id}`)?.value || prop.title;
+  prop.description = document.getElementById(`edit-desc-${id}`)?.value || prop.description;
+  prop.city        = document.getElementById(`edit-city-${id}`)?.value || prop.city;
+  if (typeof Toast !== 'undefined') Toast.show('💾 Modifications sauvegardées.', 'success');
+}
+
+function unpublishProperty(id) {
+  const prop = properties.find(p => p.id === id);
+  if (!prop) return;
+  prop.status = 'pending_review';
+  updateStats();
+  renderProperties();
+  if (typeof Toast !== 'undefined') Toast.show('⏸ Annonce dépubliée.', 'info');
+}
+</script>
+</body>
+</html>
